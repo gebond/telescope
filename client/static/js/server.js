@@ -25,23 +25,46 @@ socket.onmessage = function (event) {
     alert("Getting data " + event.data);
 };
 
-function sendMessage() {
+function sendMessage(sendmessage) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         func_type: "send_message",
-        payload: {
-            body: "message body",
-            chat_id: 1,
-            sender_id: "gbondarenko",
-            scope_id: 2
-        }
+        payload: sendmessage
+            // {body: "message body",
+            // chat_id: 1,
+            // sender_id: "gbondarenko",
+            // scope_id: 2}
     };
     // Send the msg object as a JSON-formatted string.
     socket.send(JSON.stringify(msg));
-
     // Blank the text input element, ready to receive the next line of text from the user.
     //document.getElementById("text").value = "";
 }
+
 setTimeout(function () {
     sendMessage();
 }, 1000);
+
+function getMessages(getmessages) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    var msg = {
+        func_type: "get_messages",
+        payload: getmessages
+    };
+    // Send the msg object as a JSON-formatted string.
+    socket.send(JSON.stringify(msg));
+    // Blank the text input element, ready to receive the next line of text from the user.
+    //document.getElementById("text").value = "";
+}
+
+function getChats(getchats) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    var msg = {
+        func_type: "get_chats",
+        payload: getchats
+    };
+    // Send the msg object as a JSON-formatted string.
+    socket.send(JSON.stringify(msg));
+    // Blank the text input element, ready to receive the next line of text from the user.
+    //document.getElementById("text").value = "";
+}

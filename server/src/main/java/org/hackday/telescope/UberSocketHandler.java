@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.json.simple.parser.ParseException;
 
 import static org.hackday.telescope.UberManager.activeSessions;
 
@@ -38,7 +39,7 @@ public class UberSocketHandler {
     }
 
     @OnWebSocketMessage
-    public void onMessage(Session session, String message) {
+    public void onMessage(Session session, String message) throws ParseException {
         String[] args = UberManager.parseData(message);
         System.out.println("Message: " + message);
     }
