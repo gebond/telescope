@@ -1,6 +1,6 @@
 API =
     {
-        // login {user_name, user_id}
+        // login {user_id}
         login: function (login) {
 
         },
@@ -21,12 +21,13 @@ API =
 
         },
 
-        // /createChat: function () {
-        //     // reload chat
-        // },
-        //
-        //
-        // inviteToChat: function () {
-        //     // reload chat
-        // }
+        // when we created chat
+        createChat: function () {
+
+        },
+
+        // when someone add us to chat
+        invitedToChat: function () {
+            // reload chat
+        }
     }

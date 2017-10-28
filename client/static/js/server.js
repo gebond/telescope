@@ -43,7 +43,7 @@ socket.onmessage = function (event) {
         API.createChat(data_json.payload)
     }
     else if (data_json.method === "invite_to_chat") {
-        API.inviteToChat(data_json.payload)
+        API.invitedToChat(data_json.payload)
     }
     else {
         console.log("wrong message!")
@@ -103,6 +103,32 @@ function getChats(getchats) {
     var msg = {
         func_type: "get_chats",
         payload: getchats
+    };
+    // Send the msg object as a JSON-formatted string.
+    socket.send(JSON.stringify(msg));
+    // Blank the text input element, ready to receive the next line of text from the user.
+    //document.getElementById("text").value = "";
+}
+
+// sendmessage = [{user_id}]
+function getChats(getchats) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    var msg = {
+        func_type: "get_chats",
+        payload: getchats
+    };
+    // Send the msg object as a JSON-formatted string.
+    socket.send(JSON.stringify(msg));
+    // Blank the text input element, ready to receive the next line of text from the user.
+    //document.getElementById("text").value = "";
+}
+
+// invite_to_chat = {target user_id, target_chat_id,}
+function inviteToChat(invite_to_chat) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    var msg = {
+        func_type: "invite_to_chat",
+        payload: invite_to_chat
     };
     // Send the msg object as a JSON-formatted string.
     socket.send(JSON.stringify(msg));
