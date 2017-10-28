@@ -46,13 +46,13 @@ public class UberManager {
         CREATE_CHAT {
             @Override
             public Command createCommand(String input) {
-                return null;
+                return null; // TODO: input: creator_id, chat_name; output: chat object
             }
         },
         INVITE_TO_CHAT {
             @Override
             public Command createCommand(String input) {
-                return null;
+                return null; // TODO: input: target_user_id, target_chat_id; should notify target_user
             }
         },
         FORWARD_MESSAGE {
