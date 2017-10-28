@@ -2,14 +2,14 @@
 
 <html lang="en" style="background: #f5f5f5;">
     <head>
-        
+
         <meta charset="utf-8">
         <title>Telescope</title>
         <meta name="description" content="telescope">
-    
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="/../file/png/favicon"/>
-        
+
         <link rel="stylesheet" href="/../css/normalize.css">
 
         <style type="text/css">
@@ -36,7 +36,7 @@
         }
 
         </style>
-    
+
     </head>
 
     <body>
@@ -48,7 +48,17 @@
         </div>
         <script>
             document.getElementById("login-button").onclick = function() {
-                window.location.replace('/../');
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "localhost:5000/rest/login", true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+
+                xhttp.send({username: });
+                var response = JSON.parse(xhttp.responseText);
+                if(response !== null){
+                    window.location.replace('/../');                }
+                    else {
+                    alert("Error occuried!")
+                }
             }
         </script>
     </body>
