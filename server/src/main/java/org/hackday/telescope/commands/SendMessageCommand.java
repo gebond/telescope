@@ -4,9 +4,11 @@ import org.hackday.telescope.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.Message;
 import org.hackday.telescope.models.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class SendMessageCommand implements Command {
 
@@ -41,9 +43,13 @@ public class SendMessageCommand implements Command {
             Message message = new Message(sender, text);
             dao.sendMessage(message, chat, scope);
 
-            // TODO: Notify receivers of the message
-            return "kek";
+            return new JSONObject() {{
+                put("reload", new JSONObject() {{
+                    put("chat_id", chat.getId());
+                    put("scope_id", scope != null ? scope.getId() : null);
+                }});
+            }}.toString();
         }
-        return "not kek";
+        throw new IllegalStateException("Message is already sent!");
     }
 }
