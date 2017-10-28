@@ -2,10 +2,12 @@ package org.hackday.telescope.dao;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.hackday.telescope.commands.GetChatsForUserCommand;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.Message;
 import org.hackday.telescope.models.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,43 @@ public class UberDao {
         User vlad = getOrCreateUserByName("vlad");
         User guseyn = getOrCreateUserByName("guseyn");
         User ilya = getOrCreateUserByName("ilya");
+
+        Chat chat1 = new Chat("Chat my #1", false);
+        Chat chat2 = new Chat("Chat my #2", false);
+        Chat chat3 = new Chat("Chat scope", true);
+
+        addChat(chat1);
+        addChat(chat2);
+        addChat(chat3);
+
+        join2Chat(gleb, chat1);
+        join2Chat(vlad, chat1);
+        join2Chat(guseyn, chat1);
+        join2Chat(ilya, chat1);
+
+        join2Chat(gleb, chat2);
+        join2Chat(vlad, chat2);
+        join2Chat(guseyn, chat2);
+
+        join2Chat(gleb, chat3);
+        join2Chat(vlad, chat3);
+
+        Message msg1 = new Message(vlad, "vlad msg");
+        Message msg2 = new Message(gleb, "gleb msg");
+        Message msg3 = new Message(guseyn, "guseyn msg");
+        Message msg4 = new Message(ilya, "ilya msg");
+        Message msg5 = new Message(vlad, "vlad msg 2");
+
+        sendMessage(msg1, chat1, null);
+        sendMessage(msg2, chat1, null);
+        sendMessage(msg3, chat1, null);
+        sendMessage(msg4, chat2, null);
+        sendMessage(msg5, chat2, chat3);
+
+        chat1.setLastMessage(msg3);
+        chat2.setLastMessage(msg5);
+        chat3.setLastMessage(msg5);
+
     }
 
     public static synchronized UberDao getInstance() {

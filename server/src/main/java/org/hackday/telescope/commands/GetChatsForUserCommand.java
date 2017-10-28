@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GetChatsForUserCommand extends Command {
@@ -40,7 +41,9 @@ public class GetChatsForUserCommand extends Command {
                                     .map(chat -> new JSONObject() {{
                                         put("id", chat.getId());
                                         put("name", chat.getName());
-                                        put("lastMessageText", chat.getLastMessage().getText());
+                                        put("lastMessageText", chat.getLastMessage() != null
+                                                ? chat.getLastMessage().getText()
+                                                : null);
                                     }})
                                     .collect(Collectors.toList())));
                         }});

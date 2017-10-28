@@ -102,7 +102,7 @@ function getChats(getchats) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         method: "get_chats",
-        payload: getchats
+        payload: JSON.stringify(getchats)
     };
     // Send the msg object as a JSON-formatted string.
     socket.send(JSON.stringify(msg));

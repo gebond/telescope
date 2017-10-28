@@ -44,7 +44,7 @@ public class UberSocketHandler {
                     .createCommand(session, jsonObject.getString("payload"));
             command.run();
         } catch (Exception e) {
-            // poshel nahuy
+            e.printStackTrace();
         }
 
         System.out.println("Message: " + message);

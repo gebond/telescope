@@ -43,8 +43,13 @@
         <div class = "div-login center-v-h">
            <span>Sign in Telescop</span>
            <input type="name" placeholder="Your name" name="" style="padding: 5px;margin: 40px 4px;"></input>
-           <input type="button" name="" style="padding: 6px;margin: 40px 4px;
+           <input id="login-button" type="button" name="" style="padding: 6px;margin: 40px 4px;
             background:  #497799; color: white;border: none;display: inline-block;" value="Sign in"></input>
         </div>
+        <script>
+            document.getElementById("login-button").onclick = function() {
+                window.location.replace('/../');
+            }
+        </script>
     </body>
 </html>
