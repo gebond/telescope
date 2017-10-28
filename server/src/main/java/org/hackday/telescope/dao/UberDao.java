@@ -33,6 +33,15 @@ public class UberDao {
         userId2ChatIdMap = ArrayListMultimap.create();
         chatId2MessageIdMap = ArrayListMultimap.create();
         messageId2ScopeId = new HashMap<>();
+
+        mock(); // TODO :-)
+    }
+
+    private void mock() {
+        User gleb = getOrCreateUserByName("gleb");
+        User vlad = getOrCreateUserByName("vlad");
+        User guseyn = getOrCreateUserByName("guseyn");
+        User ilya = getOrCreateUserByName("ilya");
     }
 
     public static synchronized UberDao getInstance() {

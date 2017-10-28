@@ -24,9 +24,13 @@ public class LoginCommand extends Command {
         User user = dao.getOrCreateUserByName(username);
 
         try {
-            session.getRemote().sendString(new JSONObject() {{
-                put("user_id", user.getId());
-            }}.toString());
+            session.getRemote().sendString(
+                    new JSONObject() {{
+                        put("method", "login");
+                        put("payload", new JSONObject() {{
+                            put("user_id", user.getId());
+                        }});
+                    }}.toString());
         } catch (IOException e) {
             System.err.println("some shit happened during LoginCommand execution");
             e.printStackTrace();

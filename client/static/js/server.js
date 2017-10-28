@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://127.0.0.1:12345");
+var socket = new WebSocket("ws://127.0.0.1:5000");
 
 // socket utils callbacks
 socket.onopen = function () {
@@ -54,7 +54,7 @@ socket.onmessage = function (event) {
 function login(login) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
-        func_type: "login",
+        method: "login",
         payload: login
     };
     // Send the msg object as a JSON-formatted string.
@@ -67,7 +67,7 @@ function login(login) {
 function sendMessage(sendmessage) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
-        func_type: "send_message",
+        method: "send_message",
         payload: sendmessage
         // {body: "message body",
         // chat_id: 1,
@@ -88,7 +88,7 @@ function sendMessage(sendmessage) {
 function getMessages(getmessages) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
-        func_type: "get_messages",
+        method: "get_messages",
         payload: getmessages
     };
     // Send the msg object as a JSON-formatted string.
@@ -101,7 +101,7 @@ function getMessages(getmessages) {
 function getChats(getchats) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
-        func_type: "get_chats",
+        method: "get_chats",
         payload: getchats
     };
     // Send the msg object as a JSON-formatted string.
@@ -114,7 +114,7 @@ function getChats(getchats) {
 function inviteToChat(invite_to_chat) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
-        func_type: "invite_to_chat",
+        method: "invite_to_chat",
         payload: invite_to_chat
     };
     // Send the msg object as a JSON-formatted string.

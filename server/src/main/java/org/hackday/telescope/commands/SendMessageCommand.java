@@ -47,9 +47,13 @@ public class SendMessageCommand extends Command {
             dao.sendMessage(message, chat, scope);
 
             try {
-                session.getRemote().sendString(new JSONObject() {{
-                    put("status", "ok");
-                }}.toString());
+                session.getRemote().sendString(
+                        new JSONObject() {{
+                            put("method", "send_message");
+                            put("payload", new JSONObject() {{
+                                put("status", "ok");
+                            }});
+                        }}.toString());
 
                 new GetChatsForUserCommand(session, sender.getId()).run();
                 Stream.concat(dao.getUsersByChat(chat).stream(), dao.getUsersByChat(scope).stream())
