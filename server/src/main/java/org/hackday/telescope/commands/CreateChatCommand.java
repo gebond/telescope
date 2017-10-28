@@ -7,7 +7,6 @@ import org.hackday.telescope.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

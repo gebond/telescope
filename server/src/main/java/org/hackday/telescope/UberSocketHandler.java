@@ -89,7 +89,7 @@ public class UberSocketHandler {
         INVITE_TO_CHAT {
             @Override
             public Command createCommand(Session session, String input) {
-                return null; // TODO: input: target_user_id, target_chat_id; should notify target_user
+                return new InviteToChatCommand(session, input);
             }
         },
         FORWARD_MESSAGE {
