@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SendMessageCommand extends Command {
