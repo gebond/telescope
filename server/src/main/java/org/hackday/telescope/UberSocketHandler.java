@@ -1,12 +1,22 @@
 package org.hackday.telescope;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.hackday.telescope.UberManager.ACTIVE_SESSIONS;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.hackday.telescope.commands.*;
+import org.json.JSONObject;
 
 @WebSocket
 public class UberSocketHandler {
+
+    public static final List<Session> ACTIVE_SESSIONS = new ArrayList<Session>();
 
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
@@ -22,17 +32,73 @@ public class UberSocketHandler {
 
     @OnWebSocketConnect
     public void onConnect(Session session) {
-        ACTIVE_SESSIONS.add(session);
-        System.out.println("Session established");
+        System.out.println("Connect: " + session.getRemoteAddress().getAddress());
+        try {
+            session.getRemote().sendString("Hello Webbrowser");
+            ACTIVE_SESSIONS.add(session);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnWebSocketMessage
-    public void onMessage(Session session, String message) throws Exception {
-//        String result = UberManager.execute(message);
-//        session.getRemote().sendString(result);
-//
-//        if ()
+    public void onMessage(Session session, String message) {
+        try {
+            JSONObject jsonObject = new JSONObject(message);
+            Command command = Method.valueOf(jsonObject.getString("method").toUpperCase())
+                    .createCommand(session, jsonObject.getString("payload"));
+            command.run();
+        } catch (Exception e) {
+            // poshel nahuy
+        }
 
         System.out.println("Message: " + message);
+    }
+
+    public enum Method {
+        SEND_MESSAGE {
+            @Override
+            public Command createCommand(Session session, String input) {
+                return new SendMessageCommand(session, input);
+            }
+        },
+        GET_CHATS {
+            @Override
+            public Command createCommand(Session session, String string) {
+                return new GetChatsForUserCommand(session, string);
+            }
+        },
+        GET_MESSAGES {
+            @Override
+            public Command createCommand(Session session, String input) {
+                return new GetMessagesForChatAndUserCommand(session, input);
+            }
+        },
+        LOGIN {
+            @Override
+            public Command createCommand(Session session, String input) {
+                return new LoginCommand(session, input);
+            }
+        },
+        CREATE_CHAT {
+            @Override
+            public Command createCommand(Session session, String input) {
+                return null; // TODO: input: creator_id, chat_name; output: chat object
+            }
+        },
+        INVITE_TO_CHAT {
+            @Override
+            public Command createCommand(Session session, String input) {
+                return null; // TODO: input: target_user_id, target_chat_id; should notify target_user
+            }
+        },
+        FORWARD_MESSAGE {
+            @Override
+            public Command createCommand(Session session, String input) {
+                return null; // TODO: input: message_id, from_chat_id, to_chat_id
+            }
+        };
+
+        public abstract Command createCommand(Session session, String input);
     }
 }

@@ -9,7 +9,6 @@ import org.hackday.telescope.models.User;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UberDao {
@@ -45,10 +44,14 @@ public class UberDao {
 
     // Add methods
 
-    public UberDao addUser(User user) {
-        users.put(user.getId(), user);
+    public User getOrCreateUserByName(String username) {
+        User user = getUserByName(username);
+        if (user == null) {
+            user = new User(username);
+            users.put(user.getId(), user);
+        }
 
-        return this;
+        return user;
     }
 
     public UberDao addChat(Chat chat) {
@@ -65,6 +68,18 @@ public class UberDao {
 
     public User getUserById(Long id) {
         return users.get(id);
+    }
+
+    public User getUserByName(String username) {
+        return users.values().stream()
+                .filter(user -> user.getName().equals(username))
+                .findFirst().orElse(null);
+    }
+
+    public List<User> getUsersByChat(Chat chat) {
+        return chatId2UserIdMap.get(chat.getId()).stream()
+                .map(users::get)
+                .collect(Collectors.toList());
     }
 
     public Chat getChatById(Long id) {

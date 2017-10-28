@@ -1,37 +1,50 @@
 package org.hackday.telescope.commands;
 
-import jdk.nashorn.internal.parser.JSONParser;
+import org.eclipse.jetty.websocket.api.Session;
 import org.hackday.telescope.dao.UberDao;
-import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.stream.Collectors;
 
-public class GetChatsForUserCommand implements Command {
+public class GetChatsForUserCommand extends Command {
 
-    private UberDao dao = UberDao.getInstance();
+    private final UberDao dao = UberDao.getInstance();
 
     private Long userId;
 
-    public GetChatsForUserCommand(String input) {
+    public GetChatsForUserCommand(Session session, String input) {
+        super(session);
+
         userId = new JSONObject(input).getLong("user_id");
     }
 
+    public GetChatsForUserCommand(Session session, Long userId) {
+        super(session);
+
+        this.userId = userId;
+    }
+
     @Override
-    public String call() {
+    public void run() {
         User user = dao.getUserById(userId);
 
-        return new JSONObject() {{
-            put("chats", new JSONArray(dao.getChatsByUser(user).stream()
-                    .map(chat -> new JSONObject() {{
-                        put("id", chat.getId());
-                        put("name", chat.getName());
-                        put("lastMessageText", chat.getLastMessage().getText());
-                    }})
-            .collect(Collectors.toList())));
-        }}.toString();
+        try {
+            session.getRemote().sendString(
+                    new JSONObject() {{
+                        put("chats", new JSONArray(dao.getChatsByUser(user).stream()
+                                .map(chat -> new JSONObject() {{
+                                    put("id", chat.getId());
+                                    put("name", chat.getName());
+                                    put("lastMessageText", chat.getLastMessage().getText());
+                                }})
+                                .collect(Collectors.toList())));
+                    }}.toString());
+        } catch (IOException e) {
+            System.err.println("some shit happened during GetChatsForUserCommand execution");
+            e.printStackTrace();
+        }
     }
 }

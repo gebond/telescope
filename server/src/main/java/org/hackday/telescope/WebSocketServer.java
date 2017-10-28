@@ -9,14 +9,22 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
  * Created on 28/10/17.
  */
 public class WebSocketServer {
+
     public static void main(String[] args) throws Exception {
-        Server server = new Server(12345);
+        int port = 5000;
+
+        if (args.length > 0) {
+            port = Integer.valueOf(args[0]);
+        }
+
+        Server server = new Server(port);
         WebSocketHandler wsHandler = new WebSocketHandler() {
             @Override
             public void configure(WebSocketServletFactory factory) {
                 factory.register(UberSocketHandler.class);
             }
         };
+
         server.setHandler(wsHandler);
         server.start();
         server.join();
