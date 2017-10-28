@@ -1,10 +1,14 @@
 package org.hackday.telescope.commands;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import org.hackday.telescope.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetChatsForUserCommand implements Command {
 
@@ -13,17 +17,21 @@ public class GetChatsForUserCommand implements Command {
     private Long userId;
 
     public GetChatsForUserCommand(String input) {
-        // Do magic
-        userId = 42L;
+        userId = new JSONObject(input).getLong("user_id");
     }
 
     @Override
     public String call() {
         User user = dao.getUserById(userId);
 
-        List<Chat> chats = dao.getChatsByUser(user);
-
-        // TODO: Send result somewhere
-        return "kek";
+        return new JSONObject() {{
+            put("chats", new JSONArray(dao.getChatsByUser(user).stream()
+                    .map(chat -> new JSONObject() {{
+                        put("id", chat.getId());
+                        put("name", chat.getName());
+                        put("lastMessageText", chat.getLastMessage().getText());
+                    }})
+            .collect(Collectors.toList())));
+        }}.toString();
     }
 }

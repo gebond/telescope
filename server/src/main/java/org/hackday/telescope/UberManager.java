@@ -1,10 +1,11 @@
 package org.hackday.telescope;
 
 import org.eclipse.jetty.websocket.api.Session;
-import org.hackday.telescope.commands.FuncType;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.hackday.telescope.commands.Command;
+import org.hackday.telescope.commands.GetChatsForUserCommand;
+import org.hackday.telescope.commands.GetMessagesForChatAndUserCommand;
+import org.hackday.telescope.commands.SendMessageCommand;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,24 +14,38 @@ import java.util.List;
  * Created on 28/10/17.
  */
 public class UberManager {
-    public static List<Session> activeSessions = new ArrayList<Session>();
-    static JSONParser parser = new JSONParser();
+    public static final List<Session> ACTIVE_SESSIONS = new ArrayList<>();
 
-    public static String[] parseData(String message) throws ParseException {
-        Object obj = parser.parse(message);
-        JSONObject jsonObject = (JSONObject) obj;
-        FuncType funcType = FuncType.of((String) jsonObject.get(FuncType.getFuncTypeKey()));
-        switch (funcType) {
-            case GET_CHATS:
-                break;
-            case GET_MESSAGES:
-                break;
-            case SEND_MESSAGE:
-                break;
-            default:
-                throw new IllegalArgumentException("Wrong funcType");
+    public static CommandResult execute(String message) throws Exception {
+        for (Session activeSession : ACTIVE_SESSIONS) {
+            activeSession.
         }
-        return null;
+        JSONObject jsonObject = new JSONObject(message);
+        Command command = Method.valueOf(jsonObject.getString("method").toUpperCase())
+                .createCommand(jsonObject.getString("payload"));
+        return command.call();
     }
 
+    enum Method {
+        SEND_MESSAGE {
+            @Override
+            public Command createCommand(String input) {
+                return new SendMessageCommand(input);
+            }
+        },
+        GET_CHATS {
+            @Override
+            public Command createCommand(String string) {
+                return new GetChatsForUserCommand(string);
+            }
+        },
+        GET_MESSAGES {
+            @Override
+            public Command createCommand(String input) {
+                return new GetMessagesForChatAndUserCommand(input);
+            }
+        };
+
+        public abstract Command createCommand(String input);
+    }
 }

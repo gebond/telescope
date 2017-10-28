@@ -11,12 +11,15 @@ socket.onclose = function (event) {
         console.log("Conection interupted"); // например, "убит" процесс сервера
     }
     console.log('Code: ' + event.code + ' cause: ' + event.reason);
+    API.exit();
 };
 socket.onerror = function (error) {
+    API.exit();
     console.log("Error " + error.message);
 };
 window.onbeforeunload = function confirmExit() {
     socket.close();
+    API.exit();
     return false;
 };
 
@@ -35,6 +38,12 @@ socket.onmessage = function (event) {
     }
     else if (data_json.method === "send_message") {
         API.sendMessage(data_json.payload)
+    }
+    else if (data_json.method === "create_chat") {
+        API.createChat(data_json.payload)
+    }
+    else if (data_json.method === "invite_to_chat") {
+        API.inviteToChat(data_json.payload)
     }
     else {
         console.log("wrong message!")

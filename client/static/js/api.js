@@ -15,5 +15,18 @@ API =
 
         sendMessage: function () {
             // reload chat
-        }
+        },
+
+        exit: function () {
+
+        },
+
+        // /createChat: function () {
+        //     // reload chat
+        // },
+        //
+        //
+        // inviteToChat: function () {
+        //     // reload chat
+        // }
     }
