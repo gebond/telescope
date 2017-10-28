@@ -28,7 +28,7 @@ public class SendMessageCommand extends Command {
         JSONObject json = new JSONObject(input);
         senderId = json.getLong("sender_id");
         chatId = json.getLong("chat_id");
-        scopeId = json.getLong("scope_id");
+        scopeId = json.keySet().contains("scope_id") ? json.getLong("scope_id") : null;
         text = json.getString("text");
 
         executed = new AtomicBoolean(false);
@@ -47,13 +47,13 @@ public class SendMessageCommand extends Command {
             dao.sendMessage(message, chat, scope);
 
             try {
-                session.getRemote().sendString(
-                        new JSONObject() {{
-                            put("method", "send_message");
-                            put("payload", new JSONObject() {{
-                                put("status", "ok");
-                            }});
-                        }}.toString());
+//                session.getRemote().sendString(
+//                        new JSONObject() {{
+//                            put("method", "send_message");
+//                            put("payload", new JSONObject() {{
+//                                put("status", "ok");
+//                            }});
+//                        }}.toString());
 
                 new GetChatsForUserCommand(session, senderId).run();
                 new GetMessagesForChatAndUserCommand(session, senderId, chatId).run();
@@ -65,7 +65,7 @@ public class SendMessageCommand extends Command {
                             new GetMessagesForChatAndUserCommand(session, userId, chatId).run();
                         });
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.err.println("some shit happened during SendMessageCommand execution");
                 e.printStackTrace();
             }

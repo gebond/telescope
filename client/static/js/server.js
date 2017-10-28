@@ -68,7 +68,7 @@ function sendMessage(sendmessage) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         method: "send_message",
-        payload: sendmessage
+        payload: JSON.stringify(sendmessage)
         // {body: "message body",
         // chat_id: 1,
         // sender_id: "gbondarenko",
@@ -89,7 +89,7 @@ function getMessages(getmessages) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         method: "get_messages",
-        payload: getmessages
+        payload: JSON.stringify(getmessages)
     };
     // Send the msg object as a JSON-formatted string.
     socket.send(JSON.stringify(msg));
@@ -115,7 +115,7 @@ function inviteToChat(invite_to_chat) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         method: "invite_to_chat",
-        payload: invite_to_chat
+        payload: JSON.stringify(invite_to_chat)
     };
     // Send the msg object as a JSON-formatted string.
     socket.send(JSON.stringify(msg));

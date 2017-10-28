@@ -107,7 +107,7 @@ input[type=button]{
   margin: 0 5px;
 }
 
-.contact {
+.contact, .message {
 	padding: 7px 4px;
 	background: #ffffff;
 	clear: both;
@@ -142,7 +142,7 @@ input[type=button]{
 	color: #666666;
 }
 
-.message {
+.message-text {
 	margin-top: 6px;
 }
 

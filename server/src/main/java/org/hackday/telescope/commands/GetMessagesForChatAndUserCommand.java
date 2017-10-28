@@ -57,7 +57,7 @@ public class GetMessagesForChatAndUserCommand extends Command {
                                             .map(message -> new JSONObject() {{
                                                 put("body", message.getText());
                                                 put("time", message.getTime());
-                                                put("sender_id", message.getSender().getId());
+                                                put("sender_id", message.getSender().getName());
                                                 put("scope_id", dao.getScopeByMessage(message).getId());
                                                 put("scope_name", dao.getScopeByMessage(message).getName());
                                             }})

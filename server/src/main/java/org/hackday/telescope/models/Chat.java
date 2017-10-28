@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by iistomin on 28/10/17.
  */
 public class Chat {
-    public static final AtomicLong ID_COUNTER = new AtomicLong(0);
+    private static final AtomicLong ID_COUNTER = new AtomicLong(0);
 
     private final Long id;
     private String name;

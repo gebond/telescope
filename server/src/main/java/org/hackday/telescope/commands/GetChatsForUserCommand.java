@@ -41,6 +41,7 @@ public class GetChatsForUserCommand extends Command {
                                     .map(chat -> new JSONObject() {{
                                         put("id", chat.getId());
                                         put("name", chat.getName());
+                                        put("is_scope", chat.isScope());
                                         put("lastMessageText", chat.getLastMessage() != null
                                                 ? chat.getLastMessage().getText()
                                                 : null);

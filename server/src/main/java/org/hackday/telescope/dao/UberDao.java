@@ -114,6 +114,14 @@ public class UberDao {
         return users;
     }
 
+    public Map<Long, Chat> getAllChats() {
+        return chats;
+    }
+
+    public Map<Long, Message> getAllMessages() {
+        return messages;
+    }
+
     public User getUserById(Long id) {
         return users.get(id);
     }
@@ -125,6 +133,10 @@ public class UberDao {
     }
 
     public List<User> getUsersByChat(Chat chat) {
+        if (chat == null) {
+            return new ArrayList<>();
+        }
+
         return chatId2UserIdMap.get(chat.getId()).stream()
                 .map(users::get)
                 .collect(Collectors.toList());
