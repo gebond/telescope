@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Message implements Comparable<Message> {
-    private static final AtomicLong ID_COUNTER = new AtomicLong(0);
+    private static final AtomicLong ID_COUNTER = new AtomicLong(1);
 
     private Long id;
     private String text;
@@ -25,6 +25,12 @@ public class Message implements Comparable<Message> {
         this.text = text;
         this.time = time;
         this.sender = sender;
+    }
+
+    public synchronized static void updateCounter(Long value) {
+        if (ID_COUNTER.get() <= value) {
+            ID_COUNTER.set(value + 1);
+        }
     }
 
     public Long getId() {

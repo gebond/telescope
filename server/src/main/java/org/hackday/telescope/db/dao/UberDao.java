@@ -270,14 +270,17 @@ public class UberDao {
 
             while (selectAllUsersRs.next()) {
                 User user = Mapper.mapUser(selectAllUsersRs);
+                User.updateCounter(user.getId());
                 users.put(user.getId(), user);
             }
             while (selectAllChatsRs.next()) {
                 Chat chat = Mapper.mapChat(selectAllChatsRs);
+                Chat.updateCounter(chat.getId());
                 chats.put(chat.getId(), chat);
             }
             while (selectAllMessagesRs.next()) {
                 Message message = Mapper.mapMessage(selectAllMessagesRs);
+                Message.updateCounter(message.getId());
                 messages.put(message.getId(), message);
 
                 Long chatId = selectAllMessagesRs.getLong(5);
