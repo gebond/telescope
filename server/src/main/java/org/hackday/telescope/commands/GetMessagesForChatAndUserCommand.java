@@ -28,6 +28,12 @@ public class GetMessagesForChatAndUserCommand extends Command {
         chatId = json.getLong("chat_id");
     }
 
+    public GetMessagesForChatAndUserCommand(Session session, Long userId, Long chatId) {
+        super(session);
+        this.userId = userId;
+        this.chatId = chatId;
+    }
+
     @Override
     public void run() {
         User user = dao.getUserById(userId);

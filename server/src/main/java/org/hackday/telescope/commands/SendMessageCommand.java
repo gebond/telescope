@@ -55,10 +55,15 @@ public class SendMessageCommand extends Command {
                             }});
                         }}.toString());
 
-                new GetChatsForUserCommand(session, sender.getId()).run();
+                new GetChatsForUserCommand(session, senderId).run();
+                new GetMessagesForChatAndUserCommand(session, senderId, chatId).run();
+
                 Stream.concat(dao.getUsersByChat(chat).stream(), dao.getUsersByChat(scope).stream())
                         .map(User::getId)
-                        .forEach(userId -> new GetChatsForUserCommand(session, userId).run());
+                        .forEach(userId -> {
+                            new GetChatsForUserCommand(session, userId).run();
+                            new GetMessagesForChatAndUserCommand(session, userId, chatId).run();
+                        });
 
             } catch (IOException e) {
                 System.err.println("some shit happened during SendMessageCommand execution");

@@ -78,13 +78,13 @@ public class UberSocketHandler {
         CREATE_CHAT {
             @Override
             public Command createCommand(Session session, String input) {
-                return null; // TODO: input: creator_id, chat_name; output: chat object
+                return new CreateChatCommand(session, input);
             }
         },
         INVITE_TO_CHAT {
             @Override
             public Command createCommand(Session session, String input) {
-                return null; // TODO: input: target_user_id, target_chat_id; should notify target_user
+                return new InviteToChatCommand(session, input);
             }
         },
         FORWARD_MESSAGE {
