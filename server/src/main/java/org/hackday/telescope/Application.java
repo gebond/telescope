@@ -36,9 +36,14 @@ public class Application {
         config.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
         config.setUsername("postgres");
         config.setPassword("telescope");
-        ds = new HikariDataSource(config);
-
-        UberDao.getInstance().extractAll();
+        try {
+            System.out.println("Trying to connect to DB...");
+            ds = new HikariDataSource(config);
+            System.out.println("Connection successful!");
+            UberDao.getInstance().extractAll();
+        } catch (Exception e) {
+            System.out.println("Connection failed! Working in-memory only");
+        }
 
         Server server = new Server(port);
 
