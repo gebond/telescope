@@ -1,24 +1,35 @@
 package org.hackday.telescope.commands;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.hackday.telescope.dao.UberDao;
 import org.hackday.telescope.models.User;
 import org.json.JSONObject;
 
-public class LoginCommand implements Command {
+import java.io.IOException;
+
+public class LoginCommand extends Command {
 
     private UberDao dao = UberDao.getInstance();
 
     private String username;
 
-    public LoginCommand(String input) {
+    public LoginCommand(Session session, String input) {
+        super(session);
+
         username = new JSONObject(input).getString("username");
     }
 
     @Override
-    public String call() throws Exception {
+    public void run() {
         User user = dao.getOrCreateUserByName(username);
-        return new JSONObject() {{
-            put("user_id", user.getId());
-        }}.toString();
+
+        try {
+            session.getRemote().sendString(new JSONObject() {{
+                put("user_id", user.getId());
+            }}.toString());
+        } catch (IOException e) {
+            System.err.println("some shit happened during LoginCommand execution");
+            e.printStackTrace();
+        }
     }
 }

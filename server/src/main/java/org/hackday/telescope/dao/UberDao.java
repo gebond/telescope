@@ -76,6 +76,12 @@ public class UberDao {
                 .findFirst().orElse(null);
     }
 
+    public List<User> getUsersByChat(Chat chat) {
+        return chatId2UserIdMap.get(chat.getId()).stream()
+                .map(users::get)
+                .collect(Collectors.toList());
+    }
+
     public Chat getChatById(Long id) {
         return chats.get(id);
     }
