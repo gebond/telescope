@@ -2,7 +2,7 @@ package org.hackday.telescope.commands;
 
 import java.util.concurrent.Callable;
 
-public interface Command extends Runnable {
+public interface Command extends Callable {
 
 
 }

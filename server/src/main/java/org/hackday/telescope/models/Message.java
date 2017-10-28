@@ -1,6 +1,7 @@
 package org.hackday.telescope.models;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Message implements Comparable<Message> {
@@ -10,12 +11,13 @@ public class Message implements Comparable<Message> {
     private String text;
     private LocalDateTime time;
     private User sender;
-    private Chat chat;
-    private Chat scope;
 
-    public Message() {
+    public Message(User sender, String text) {
         id = ID_COUNTER.incrementAndGet();
         time = LocalDateTime.now();
+
+        this.sender = sender;
+        this.text = text;
     }
 
     public Long getId() {
@@ -34,16 +36,21 @@ public class Message implements Comparable<Message> {
         return sender;
     }
 
-    public Chat getChat() {
-        return chat;
-    }
-
-    public Chat getScope() {
-        return scope;
-    }
-
     @Override
     public int compareTo(Message o) {
         return time.compareTo(o.time);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(id, message.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

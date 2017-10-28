@@ -1,31 +1,28 @@
 package org.hackday.telescope.models;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by iistomin on 28/10/17.
  */
 public class Chat {
-    private static final AtomicLong ID_COUNTER = new AtomicLong(0);
+    public static final AtomicLong ID_COUNTER = new AtomicLong(0);
 
     private final Long id;
     private String name;
-    private Boolean isScope;
+    private Boolean scope;
 
-    private List<User> users;
-    private Set<Message> messages; //TreeSet
+//    private List<User> users;
+//    private Set<Message> messages; //TreeSet
 
-    public Chat(String name, Boolean isScope) {
+    public Chat(String name, Boolean scope) {
         id = ID_COUNTER.incrementAndGet();
-        users = new ArrayList<>();
-        messages = new TreeSet<>();
+//        users = new ArrayList<>();
+//        messages = new TreeSet<>();
 
         this.name = name;
-        this.isScope = isScope;
+        this.scope = scope;
     }
 
     public Long getId() {
@@ -36,15 +33,28 @@ public class Chat {
         return name;
     }
 
-    public Boolean getScope() {
-        return isScope;
+    public Boolean isScope() {
+        return scope;
     }
 
-    public List<User> getUsers() {
-        return users;
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//    public Set<Message> getMessages() {
+//        return messages;
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chat chat = (Chat) o;
+        return Objects.equals(id, chat.id);
     }
 
-    public Set<Message> getMessages() {
-        return messages;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
