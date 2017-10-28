@@ -30,7 +30,9 @@ public class GetChatsForUserCommand extends Command {
     @Override
     public void run() {
         User user = dao.getUserById(userId);
-
+        if (user == null) {
+            return; // todo may be exception
+        }
         try {
             session.getRemote().sendString(
                     new JSONObject() {{

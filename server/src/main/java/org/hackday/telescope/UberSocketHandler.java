@@ -69,12 +69,6 @@ public class UberSocketHandler {
                 return new GetMessagesForChatAndUserCommand(session, input);
             }
         },
-        LOGIN {
-            @Override
-            public Command createCommand(Session session, String input) {
-                return new LoginCommand(session, input);
-            }
-        },
         CREATE_CHAT {
             @Override
             public Command createCommand(Session session, String input) {
