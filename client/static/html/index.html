@@ -12,13 +12,13 @@
 
         <link rel="stylesheet" href="/../css/normalize.css">
         <link rel="stylesheet" href="/../css/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="../js/api.js"></script>
         <script type="text/javascript" src="../js/server.js"></script>
         <script type="text/javascript" src="../js/telescope.js"></script>
     </head>
 
     <body>
-
         <div class="main">
             <div class="header">
                 <img class="header-menu" src="/../png/ic_menu_white_24dp_2x.png"></img>
@@ -52,8 +52,6 @@
             </div>
         </div>
         <script type="text/javascript">
-            localStorage.setItem("userId", "1");
-
             function waitForSocketConnection(socket, callback){
                 setTimeout(
                     function () {

@@ -10,7 +10,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="/../file/png/favicon"/>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
         <link rel="stylesheet" href="/../css/normalize.css">
+        <script type="text/javascript" src="../js/api.js"></script>
 
         <style type="text/css">
 
@@ -42,23 +45,18 @@
     <body>
         <div class = "div-login center-v-h">
            <span>Sign in Telescop</span>
-           <input type="name" placeholder="Your name" name="" style="padding: 5px;margin: 40px 4px;"></input>
+           <input id="login-field"type="name" placeholder="Your name" name="" style="padding: 5px;margin: 40px 4px;"></input>
            <input id="login-button" type="button" name="" style="padding: 6px;margin: 40px 4px;
             background:  #497799; color: white;border: none;display: inline-block;" value="Sign in"></input>
         </div>
         <script>
             document.getElementById("login-button").onclick = function() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("POST", "localhost:5000/rest/login", true);
-                xhttp.setRequestHeader("Content-type", "application/json");
-
-                xhttp.send({username: });
-                var response = JSON.parse(xhttp.responseText);
-                if(response !== null){
-                    window.location.replace('/../');                }
-                    else {
-                    alert("Error occuried!")
-                }
+                $.get('http://localhost:5000/rest/login',
+                    { username:  document.getElementById("login-field").value }, function(data) {
+                        console.log(data.payload);
+                        localStorage.setItem('userId', data.payload.user_id);
+                        window.location.replace('/../');
+                    });
             }
         </script>
     </body>

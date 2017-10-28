@@ -2,7 +2,7 @@ API =
     {
         // login {user_id}
         login: function (login) {
-            localStorage.setItem('userId', login.user_id);
+            localStorage.setItem('userId', login.payload.user_id);
             window.location.reload('/../');
         },
 

@@ -34,6 +34,7 @@ public class RestServlet extends HttpServlet {
         }}.toString();
 
         response.getWriter().println(responseString);
+        response.addHeader("Access-Control-Allow-Origin", "*");
     }
 
     public void destroy() {
