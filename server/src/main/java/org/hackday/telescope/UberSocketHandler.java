@@ -30,17 +30,18 @@ public class UberSocketHandler {
     @OnWebSocketConnect
     public void onConnect(Session session) {
         System.out.println("Connect: " + session.getRemoteAddress().getAddress());
-        try {
-            session.getRemote().sendString("Hello Webbrowser");
-            activeSessions.add(session);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+        //session.getRemote().sendString("Hello Webbrowser");
+        activeSessions.add(session);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @OnWebSocketMessage
-    public void onMessage(Session session, String message) throws ParseException {
-        String[] args = UberManager.parseData(message);
+    public void onMessage(Session session, String message) throws ParseException, IOException {
+        //String[] args = UberManager.parseData(message);
+        session.getRemote().sendString("{\"method\":\"get_chats\", \"payload\":\"{}\"}");
         System.out.println("Message: " + message);
     }
 }

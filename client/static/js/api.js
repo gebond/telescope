@@ -1,5 +1,10 @@
 API =
     {
+        // login {user_name, user_id}
+        login: function (login) {
+
+        },
+
         loadContacts: function (chats) {
 
         },
@@ -9,6 +14,6 @@ API =
         },
 
         sendMessage: function () {
-                // reload chat
+            // reload chat
         }
     }
