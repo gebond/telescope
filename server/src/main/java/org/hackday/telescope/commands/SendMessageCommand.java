@@ -4,6 +4,7 @@ import org.hackday.telescope.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.Message;
 import org.hackday.telescope.models.User;
+import org.json.JSONObject;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,11 +19,13 @@ public class SendMessageCommand implements Command {
     private AtomicBoolean executed;
 
     public SendMessageCommand(String input) {
-        // Do magic
-        senderId = 42L;
-        chatId = 42L;
-        scopeId = 42L;
-        text = input;
+        JSONObject json = new JSONObject(input);
+
+        senderId = json.getLong("sender_id");
+        chatId = json.getLong("chat_id");
+        scopeId = json.getLong("scope_id");
+        text = json.getString("text");
+
         executed = new AtomicBoolean(false);
     }
 

@@ -1,5 +1,8 @@
 package org.hackday.telescope.models;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -12,6 +15,8 @@ public class Chat {
     private final Long id;
     private String name;
     private Boolean scope;
+
+    private Message lastMessage;
 
 //    private List<User> users;
 //    private Set<Message> messages; //TreeSet
@@ -37,7 +42,15 @@ public class Chat {
         return scope;
     }
 
-//    public List<User> getUsers() {
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    //    public List<User> getUsers() {
 //        return users;
 //    }
 //
@@ -56,5 +69,18 @@ public class Chat {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public enum COMPARATORS {
+
+        BY_LAST_MESSAGE_DATE() {
+            @Override
+            public Comparator<Chat> getComparator() {
+                // TODO fix NPEs when lastMessage is null
+                return Comparator.comparing(chat -> chat.getLastMessage().getTime());
+            }
+        };
+
+        public abstract Comparator<Chat> getComparator();
     }
 }
