@@ -1,13 +1,10 @@
 package org.hackday.telescope.commands;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.hackday.telescope.dao.UberDao;
-import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetChatsForUserCommand implements Command {
