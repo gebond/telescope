@@ -1,6 +1,6 @@
 package org.hackday.telescope.rest;
 
-import org.hackday.telescope.dao.UberDao;
+import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.User;
 import org.json.JSONObject;
 

@@ -1,8 +1,6 @@
 package org.hackday.telescope.models;
 
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -10,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by iistomin on 28/10/17.
  */
 public class Chat {
-    private static final AtomicLong ID_COUNTER = new AtomicLong(0);
+    private static final AtomicLong ID_COUNTER = new AtomicLong(100001);
 
     private final Long id;
     private String name;
@@ -18,16 +16,23 @@ public class Chat {
 
     private Message lastMessage;
 
-//    private List<User> users;
-//    private Set<Message> messages; //TreeSet
-
     public Chat(String name, Boolean scope) {
         id = ID_COUNTER.incrementAndGet();
-//        users = new ArrayList<>();
-//        messages = new TreeSet<>();
 
         this.name = name;
         this.scope = scope;
+    }
+
+    public Chat(Long id, String name, Boolean scope) {
+        this.id = id;
+        this.name = name;
+        this.scope = scope;
+    }
+
+    public synchronized static void updateCounter(Long value) {
+        if (ID_COUNTER.get() <= value) {
+            ID_COUNTER.set(value + 1);
+        }
     }
 
     public Long getId() {

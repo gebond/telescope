@@ -1,13 +1,12 @@
 package org.hackday.telescope.commands;
 
 import org.eclipse.jetty.websocket.api.Session;
-import org.hackday.telescope.dao.UberDao;
+import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GetChatsForUserCommand extends Command {

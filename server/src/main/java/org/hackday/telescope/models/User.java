@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class User {
 
-    private static final AtomicLong ID_COUNTER = new AtomicLong(0);
+    private static final AtomicLong ID_COUNTER = new AtomicLong(1);
 
     private final Long id;
     private String name;
@@ -14,6 +14,17 @@ public class User {
         id = ID_COUNTER.incrementAndGet();
 
         this.name = name;
+    }
+
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public synchronized static void updateCounter(Long value) {
+        if (ID_COUNTER.get() <= value) {
+            ID_COUNTER.set(value + 1);
+        }
     }
 
     public Long getId() {
