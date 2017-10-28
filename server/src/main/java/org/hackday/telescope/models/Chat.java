@@ -30,6 +30,12 @@ public class Chat {
         this.scope = scope;
     }
 
+    public Chat(Long id, String name, Boolean scope) {
+        this.id = id;
+        this.name = name;
+        this.scope = scope;
+    }
+
     public Long getId() {
         return id;
     }

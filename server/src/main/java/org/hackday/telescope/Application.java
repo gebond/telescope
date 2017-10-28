@@ -9,6 +9,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.rest.RestServlet;
 
 import javax.sql.DataSource;
@@ -21,8 +22,8 @@ import java.sql.SQLException;
  */
 public class Application {
 
-//    private static final HikariConfig config = new HikariConfig();
-//    private static DataSource ds;
+    private static final HikariConfig config = new HikariConfig();
+    private static DataSource ds;
 
     public static void main(String[] args) throws Exception {
 
@@ -32,10 +33,12 @@ public class Application {
             port = Integer.valueOf(args[0]);
         }
 
-//        config.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-//        config.setUsername("postgres");
-//        config.setPassword("telescope");
-//        ds = new HikariDataSource(config);
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
+        config.setUsername("postgres");
+        config.setPassword("telescope");
+        ds = new HikariDataSource(config);
+
+        UberDao.getInstance().extractAll();
 
         Server server = new Server(port);
 
@@ -62,7 +65,7 @@ public class Application {
         server.join();
     }
 
-//    public static Connection getDbConnection() throws SQLException {
-//        return ds.getConnection();
-//    }
+    public static Connection getDbConnection() throws SQLException {
+        return ds.getConnection();
+    }
 }

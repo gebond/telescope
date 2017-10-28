@@ -20,6 +20,13 @@ public class Message implements Comparable<Message> {
         this.text = text;
     }
 
+    public Message(Long id, String text, LocalDateTime time, User sender) {
+        this.id = id;
+        this.text = text;
+        this.time = time;
+        this.sender = sender;
+    }
+
     public Long getId() {
         return id;
     }
