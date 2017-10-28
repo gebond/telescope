@@ -18,7 +18,7 @@ public class GetChatsForUserCommand implements Command {
     }
 
     @Override
-    public String call() {
+    public CommandResult call() {
         User user = dao.getUserById(userId);
 
         return new JSONObject() {{

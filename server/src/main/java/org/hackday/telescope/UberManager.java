@@ -24,7 +24,7 @@ public class UberManager {
         return null; // TODO
     }
 
-    enum Method {
+    public enum Method {
         SEND_MESSAGE {
             @Override
             public Command createCommand(String input) {
@@ -42,7 +42,26 @@ public class UberManager {
             public Command createCommand(String input) {
                 return new GetMessagesForChatAndUserCommand(input);
             }
+        },
+        CREATE_CHAT {
+            @Override
+            public Command createCommand(String input) {
+                return null;
+            }
+        },
+        INVITE_TO_CHAT {
+            @Override
+            public Command createCommand(String input) {
+                return null;
+            }
+        },
+        FORWARD_MESSAGE {
+            @Override
+            public Command createCommand(String input) {
+                return null; // TODO: input: message_id, from_chat_id, to_chat_id
+            }
         };
+
 
         public abstract Command createCommand(String input);
     }
