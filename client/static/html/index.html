@@ -130,13 +130,13 @@
                         </div>
                     </div>
 
-                    <div class="contact">
+                    <div class="contact scope">
                         <span class="avatar">
                         
                         </span>
                         <div class="con-data">
                             <div class="user-name">
-                                Petya
+                                Nadya
                             </div>
                             <div class="message">
                                 last message
@@ -153,7 +153,11 @@
             </div>
         </div>
         <script type="text/javascript">
-            tuneAvatars();
+            if (localStorage.getItem("userId")) {
+                tuneAvatars();
+            } else {
+                window.location.replace('/../html/login');
+            }
         </script>
     </body>
 </html>
