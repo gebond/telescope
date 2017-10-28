@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GetChatsForUserCommand extends Command {
@@ -34,13 +35,18 @@ public class GetChatsForUserCommand extends Command {
         try {
             session.getRemote().sendString(
                     new JSONObject() {{
-                        put("chats", new JSONArray(dao.getChatsByUser(user).stream()
-                                .map(chat -> new JSONObject() {{
-                                    put("id", chat.getId());
-                                    put("name", chat.getName());
-                                    put("lastMessageText", chat.getLastMessage().getText());
-                                }})
-                                .collect(Collectors.toList())));
+                        put("method", "get_chats");
+                        put("payload", new JSONObject() {{
+                            put("chats", new JSONArray(dao.getChatsByUser(user).stream()
+                                    .map(chat -> new JSONObject() {{
+                                        put("id", chat.getId());
+                                        put("name", chat.getName());
+                                        put("lastMessageText", chat.getLastMessage() != null
+                                                ? chat.getLastMessage().getText()
+                                                : null);
+                                    }})
+                                    .collect(Collectors.toList())));
+                        }});
                     }}.toString());
         } catch (IOException e) {
             System.err.println("some shit happened during GetChatsForUserCommand execution");

@@ -56,16 +56,4 @@ public class CreateChatCommand extends Command {
             e.printStackTrace();
         }
     }
-
-    // TODO: Please, don't RUN TUDUDUDUDUDUDUDUDU
-    public static void main(String[] args) {
-        CreateChatCommand command = new CreateChatCommand(null, new JSONObject() {{
-            put("creator_id", 1L);
-            put("invitee_ids", new JSONArray(Arrays.asList(2L, 3L, 4L)));
-            put("chat_name", "pediki");
-            put("is_scope", true);
-        }}.toString());
-
-        System.out.println("");
-    }
 }

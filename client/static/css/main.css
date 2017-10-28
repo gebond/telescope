@@ -1,6 +1,7 @@
 body {
-	background: #ffffff;
+	background: #e7ebf0;
 	font-family: Tahoma, sans-serif;
+	height: 100%;
 }
 
 *
@@ -53,19 +54,24 @@ input[type=button]{
 
 .left {
 	min-height: 150px;
-	width: 20%;
-	height: auto;
+	width: 30%;
+	height: 100%;
 	float: left;
-	background: red;
+	background: #ededed;
+	padding: 0 0 4px 0; 
+	border-right: 1px solid #ededed;
+	overflow: auto;
 }
 
 .screen {
-	width: 80%;
+	width: 70%;
 	min-height: 150px;
-	height: auto;
+	height: 100%;
 	float: right;
-	background: blue;
+	background: #ffffff;
 	position: relative;
+	border-left: 1px solid #ededed;
+	padding-bottom: 6px;
 }
 
 .messages {
@@ -74,12 +80,13 @@ input[type=button]{
 	padding: 4px;
 	clear: both;
 	top: 0;
+	overflow: auto;
 }
 
 .message-tool {
 	width: 100%;
 	height: auto;
-	background: yellow;
+	background: #ffffff;
 	padding: 4px;
 	clear: both;
 	display: block;
@@ -90,6 +97,53 @@ input[type=button]{
 	height: 100px;
 	width: 100%;
 	clear: both;
+	border: 1px solid lightgrey;
+}
+
+.con-data {
+	clear: both;
+	display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+
+.contact {
+	padding: 7px 4px;
+	background: #ffffff;
+	clear: both;
+	margin: 3px 0;
+	cursor: pointer;
+}
+
+.scope {
+	padding-left: 24px;
+	background: #ff8898;
+}
+
+.avatar {
+	width: 42px;
+	line-height: 42px;
+	border-radius: 50%;
+  overflow: hidden;
+  background: #454545;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.user-name {
+	font-size: 0.875em;
+	font-weight: bold;
+}
+
+.last-message {
+	font-size: 0.65em;
+	margin-top: 3px;
+	color: #666666;
+}
+
+.message {
+	margin-top: 6px;
 }
 
 @media only screen and (max-width: 650px) {

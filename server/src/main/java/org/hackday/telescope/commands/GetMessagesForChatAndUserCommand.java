@@ -50,15 +50,19 @@ public class GetMessagesForChatAndUserCommand extends Command {
         try {
             session.getRemote().sendString(
                     new JSONObject() {{
-                        put("messages", new JSONArray(filteredMessages.stream()
-                                .map(message -> new JSONObject() {{
-                                    put("body", message.getText());
-                                    put("time", message.getTime());
-                                    put("sender_id", message.getSender().getId());
-                                    put("scope_id", dao.getScopeByMessage(message).getId());
-                                    put("scope_name", dao.getScopeByMessage(message).getName());
-                                }})
-                                .collect(Collectors.toList())));
+                        put("method", "get_messages");
+                        put("payload",
+                                new JSONObject() {{
+                                    put("messages", new JSONArray(filteredMessages.stream()
+                                            .map(message -> new JSONObject() {{
+                                                put("body", message.getText());
+                                                put("time", message.getTime());
+                                                put("sender_id", message.getSender().getId());
+                                                put("scope_id", dao.getScopeByMessage(message).getId());
+                                                put("scope_name", dao.getScopeByMessage(message).getName());
+                                            }})
+                                            .collect(Collectors.toList())));
+                                }});
                     }}.toString());
         } catch (IOException e) {
             System.err.println("some shit happened during GetMessagesForChatAndUserCommand execution");
