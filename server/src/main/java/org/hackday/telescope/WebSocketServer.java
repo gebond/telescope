@@ -14,7 +14,7 @@ public class WebSocketServer {
         WebSocketHandler wsHandler = new WebSocketHandler() {
             @Override
             public void configure(WebSocketServletFactory factory) {
-                factory.register(MyWebSocketHandler.class);
+                factory.register(UberSocketHandler.class);
             }
         };
         server.setHandler(wsHandler);
