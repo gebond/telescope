@@ -23,31 +23,45 @@ API =
                     (chats[i].lastMessageText || '') + '</div>' +
                     '                        </div>' +
                     '                </div>';
-                var chat = chats[i];
-                (function (chat) {
-                    document.getElementById('contact_' + chat.id).addEventListener('click', function () {
-                        console.log(chat.id);// getMessages({chat_id: chat.id, user_id: localStorage.getItem("userId")});
-                    })
-                })(chat);
-
 
             }
+            var contactChats = document.getElementsByClassName('contact');
+            for (var i = 0; i < contactChats.length; i++) {
+                (function (chat, i) {
+                    document.getElementById('contact_' + chat.id).addEventListener('click', function () {
+                        getMessages({chat_id: chat.id, user_id: localStorage.getItem("userId")});
+                        for (var j = 0; j < chats.length; j++) {
+                            if (j !== i) {
+                                document.getElementById('contact_' + chats[j].id).style['background'] = '#ffffff';
+                                document.getElementById('contact_' + chats[j].id).style['color'] = '#111111';
+                                document.getElementById('contact_' + chats[j].id).getElementsByClassName('last-message')[0].style['color'] = '#666666';
+                            } else {
+                                document.getElementById('contact_' + chats[j].id).style['background'] = '#497799';
+                                document.getElementById('contact_' + chats[j].id).style['color'] = '#ffffff';
+                                document.getElementById('contact_' + chats[j].id).getElementsByClassName('last-message')[0].style['color'] = '#ffffff ';
+                            }
+                        }
+                    })
+                })(chats[i], i);
+            }
+            
             tuneAvatars();
         },
 
         loadMessages: function (messages) {
-
+            messages = messages['messages'];
             var messageBox = document.getElementsByClassName('messages')[0];
-
+            console.log(messages);
+            messageBox.innerHTML = '';
             for (var i = 0; i < messages.length; i++) {
-                messageBox.innerHTML += "<div class=\"message scope\" id='" +
+                messageBox.innerHTML += "<div class=\"message " + (messages[i].scope_id ? 'scope' : '') + " \" id='" +
                     (messages[i].scope_id || '') + "'>" +
                     "                        <span class=\"avatar\">" +
                     "                        " +
                     "                        </span>" +
                     "                        <div class=\"con-data\">" +
                     "                            <div class=\"user-name\">" +
-                    messages[i].user_name +
+                    (messages[i].sender_id) +
                     "                            </div>" +
                     "                            <div class=\"message-text\">" +
                     messages[i].body +
@@ -55,6 +69,10 @@ API =
                     "                        </div>" +
                     "                    </div>"
             }
+            if (messages.length === 0) {
+                messageBox.innerHTML = '<b>No messages</b>';
+            }
+            tuneAvatars();
         },
 
         sendMessage: function () {

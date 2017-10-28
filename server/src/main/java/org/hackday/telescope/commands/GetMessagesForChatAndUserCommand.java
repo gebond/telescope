@@ -44,7 +44,9 @@ public class GetMessagesForChatAndUserCommand extends Command {
                 .collect(Collectors.toSet());
 
         List<Message> filteredMessages = dao.getMessagesByChat(chat).stream()
-                .filter(message -> userScopes.contains(dao.getScopeByMessage(message)))
+                .filter(message ->
+                        dao.getScopeByMessage(message) == null
+                                || userScopes.contains(dao.getScopeByMessage(message)))
                 .collect(Collectors.toList());
 
         try {
@@ -58,8 +60,12 @@ public class GetMessagesForChatAndUserCommand extends Command {
                                                 put("body", message.getText());
                                                 put("time", message.getTime());
                                                 put("sender_id", message.getSender().getName());
-                                                put("scope_id", dao.getScopeByMessage(message).getId());
-                                                put("scope_name", dao.getScopeByMessage(message).getName());
+                                                put("scope_id", dao.getScopeByMessage(message) != null
+                                                        ? dao.getScopeByMessage(message).getId()
+                                                        : null);
+                                                put("scope_name", dao.getScopeByMessage(message) != null
+                                                        ? dao.getScopeByMessage(message).getName()
+                                                        : null);
                                             }})
                                             .collect(Collectors.toList())));
                                 }});
