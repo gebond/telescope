@@ -37,6 +37,7 @@ API =
                                 document.getElementById('contact_' + chats[j].id).style['color'] = '#111111';
                                 document.getElementById('contact_' + chats[j].id).getElementsByClassName('last-message')[0].style['color'] = '#666666';
                             } else {
+                                localStorage.setItem('chatId', chats[j].id);
                                 document.getElementById('contact_' + chats[j].id).style['background'] = '#497799';
                                 document.getElementById('contact_' + chats[j].id).style['color'] = '#ffffff';
                                 document.getElementById('contact_' + chats[j].id).getElementsByClassName('last-message')[0].style['color'] = '#ffffff ';
@@ -68,7 +69,8 @@ API =
                     "                            </div>" +
                     "                            <div class=\"message-text\">" +
                     messages[i].body +
-                    "                            </div>" +
+                    "<span style='color:grey;font-size:12px;margin: 6px;'>" + new Date(messages[i].time).getHours() + ":" + new Date(messages[i].time).getMinutes()
+                    "                            </span></div>" +
                     "                        </div>" +
                     "                    </div>"
             }
@@ -79,7 +81,6 @@ API =
         },
 
         sendMessage: function () {
-            // reload chat
         },
 
         exit: function () {

@@ -39,3 +39,7 @@ var tuneAvatars = function(name) {
 		}
 	}
 }
+
+var setFixedHeightToScreen = function() {
+	var screenElm = document.getElementsByClassName('');
+}

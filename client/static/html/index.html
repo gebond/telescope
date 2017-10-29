@@ -74,18 +74,20 @@
             document.getElementsByName("send-message")[0].onclick = function() {
                 sendmessage = {
                     text: document.getElementById("message-text").value,
-                    chat_id: 100002, // HOW CHEK
+                    chat_id: localStorage.getItem('chatId'),
                     sender_id: localStorage.getItem('userId')};
                 sendMessage(sendmessage);
+                document.getElementById('message-text').value = '';
             }
         </script>
         <script>
             document.getElementsByName("send-to-scope-message")[0].onclick = function() {
                 sendmessage = {
                     text: document.getElementById("message-text").value,
-                    chat_id: 100002,
+                    chat_id: localStorage.getItem('chatId'),
                     sender_id: localStorage.getItem('userId')};
                 sendMessage(sendmessage);
+                document.getElementById('message-text').value = '';
             }
         </script>
     </body>

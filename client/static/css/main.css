@@ -23,7 +23,7 @@ input[type=button]{
 	color: #497799;
 	font-weight: bold;
 	float: right;
-	margin: 0 4px;
+	margin: 4px;
 	font-size: 0.8175em;
 	background: #ededed;
 }
@@ -84,19 +84,18 @@ input[type=button]{
 }
 
 .message-tool {
-	width: 100%;
+	width: 70%;
 	height: auto;
 	background: #ffffff;
 	padding: 4px;
-	clear: both;
+	float: right;
 	display: block;
 }
 
 .message-area {
-	padding: 5px;
 	height: 100px;
 	width: 100%;
-	clear: both;
+	float: right;
 	border: 1px solid lightgrey;
 }
 
