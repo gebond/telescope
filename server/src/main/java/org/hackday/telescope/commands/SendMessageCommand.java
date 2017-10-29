@@ -45,7 +45,7 @@ public class SendMessageCommand extends Command {
             Chat scope = scopeId != null ? dao.getChatById(scopeId) : null;
 
             Message message = new Message(sender, text);
-            if (scope != null) {
+            if (scope == null) {
                 chat.setLastMessage(message);
             }
             dao.sendMessage(message, chat, scope);

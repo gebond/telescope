@@ -38,7 +38,7 @@ public class UberDao {
         messageId2ScopeId = new HashMap<>();
         messageId2ChatId = new HashMap<>();
 
-//        mock(); // TODO :-)
+        mock(); // todo mock cheer
 
         System.out.println("DAO initialized!");
     }
@@ -55,11 +55,12 @@ public class UberDao {
         User vlad = getOrCreateUserByName("vlad");
         User guseyn = getOrCreateUserByName("guseyn");
         User ilya = getOrCreateUserByName("ilya");
+        User admin = getOrCreateUserByName("admin");
 
-        Chat chat1 = new Chat("Chat my #1", false);
-        Chat chat2 = new Chat("Chat my #2", false);
-        Chat chat3 = new Chat("Chat scope", true);
-        Chat chat4 = new Chat("Chat scope#2", true);
+        Chat chat1 = new Chat("Project - общий чат", false);
+        Chat chat2 = new Chat("Office - общий чат", false);
+        Chat chat3 = new Chat("SCOPE - Java Team", true);
+        Chat chat4 = new Chat("SCOPE - UI Team", true);
 
         addChat(chat1);
         addChat(chat2);
@@ -74,32 +75,43 @@ public class UberDao {
         join2Chat(gleb, chat2);
         join2Chat(vlad, chat2);
         join2Chat(guseyn, chat2);
+        join2Chat(admin, chat2);
 
-        join2Chat(gleb, chat3);
         join2Chat(vlad, chat3);
+        join2Chat(ilya, chat3);
 
         join2Chat(gleb, chat4);
         join2Chat(guseyn, chat4);
 
-        Message msg1 = new Message(vlad, "vlad msg");
-        Message msg2 = new Message(gleb, "gleb msg");
-        Message msg3 = new Message(guseyn, "guseyn msg");
-        Message msg4 = new Message(ilya, "ilya msg");
-        Message msg5 = new Message(vlad, "vlad msg 2");
-        Message msg6 = new Message(gleb, "gleb msg 2");
+        Message msg0 = new Message(admin, "Кто на хакатон хочет?");
+
+        Message msg1 = new Message(vlad, "UI, Когда вы уже зальете фикс?");
+
+        Message msg2 = new Message(gleb, "мы вообще его делали?");
+        Message msg3 = new Message(guseyn, "первый раз вижу");
+
+        Message msg5 = new Message(ilya, "Может это наш баг все-таки?");
+
+        Message msg4 = new Message(gleb, "Скоро будет");
+
+        Message msg6 = new Message(vlad, "Ну пусть сами разбираются)");
 
         sendMessage(msg1, chat1, null);
-        sendMessage(msg2, chat1, null);
-        sendMessage(msg3, chat1, null);
-        sendMessage(msg4, chat2, null);
-        sendMessage(msg5, chat2, chat3);
-        sendMessage(msg6, chat1, chat4);
+        sendMessage(msg2, chat1, chat4);
+        sendMessage(msg3, chat1, chat4);
 
-        chat1.setLastMessage(msg3);
-        chat2.setLastMessage(msg5);
-        chat3.setLastMessage(msg5);
-        chat4.setLastMessage(msg6);
+        sendMessage(msg0, chat2, null);
 
+        //sendMessage(msg5, chat1, chat3);
+
+        //sendMessage(msg4, chat1, null);
+
+        //sendMessage(msg6, chat1, chat3);
+
+//        chat1.setLastMessage(msg3);
+//        chat2.setLastMessage(msg5);
+//        chat3.setLastMessage(msg5);
+//        chat4.setLastMessage(msg6);
     }
 
     // Add methods
