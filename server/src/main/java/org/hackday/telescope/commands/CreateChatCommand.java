@@ -1,6 +1,7 @@
 package org.hackday.telescope.commands;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.hackday.telescope.UberSocketHandler;
 import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +29,6 @@ public class CreateChatCommand extends Command {
 
         creatorId = json.getLong("creator_id");
         inviteeIds = json.getJSONArray("invitee_ids").toList().stream()
-                // TODO: Meh
                 .map(Integer.class::cast)
                 .map(Long::new)
                 .collect(Collectors.toList());
@@ -44,14 +45,17 @@ public class CreateChatCommand extends Command {
         users.addAll(inviteeIds.stream().map(dao::getUserById).collect(Collectors.toList()));
         users.forEach(user -> {
             dao.join2Chat(user, chat);
-            new GetChatsForUserCommand(session, user.getId()).run();
+            new GetChatsForUserCommand(UberSocketHandler.ACTIVE_SESSIONS, user.getId()).run();
         });
 
-        try {
-            session.getRemote().sendString(new JSONObject() {{ put("chat_id", chat.getId()); }}.toString());
-        } catch (IOException e) {
-            System.err.println("some shit happened during CreateChatCommand execution");
-            e.printStackTrace();
-        }
+        sessions.forEach(session -> {
+            try {
+                session.getRemote().sendString(new JSONObject() {{
+                    put("chat_id", chat.getId());
+                }}.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package org.hackday.telescope.commands;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.hackday.telescope.UberSocketHandler;
 import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
@@ -28,7 +29,7 @@ public class InviteToChatCommand extends Command {
         User user = dao.getUserById(targetUserId);
 
         dao.join2Chat(user, chat);
-        new GetChatsForUserCommand(session, user.getId()).run();
-
+        new GetChatsForUserCommand(UberSocketHandler.ACTIVE_SESSIONS, user.getId()).run();
+        new GetScopesCommand(UberSocketHandler.ACTIVE_SESSIONS, user.getId()).run();
     }
 }

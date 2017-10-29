@@ -1,13 +1,13 @@
 package org.hackday.telescope.commands;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.hackday.telescope.UberSocketHandler;
 import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.Message;
 import org.hackday.telescope.models.User;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -47,22 +47,14 @@ public class SendMessageCommand extends Command {
             dao.sendMessage(message, chat, scope);
 
             try {
-//                session.getRemote().sendString(
-//                        new JSONObject() {{
-//                            put("method", "send_message");
-//                            put("payload", new JSONObject() {{
-//                                put("status", "ok");
-//                            }});
-//                        }}.toString());
-
-                new GetChatsForUserCommand(session, senderId).run();
-                new GetMessagesForChatAndUserCommand(session, senderId, chatId).run();
+                new GetChatsForUserCommand(UberSocketHandler.ACTIVE_SESSIONS, senderId).run();
+                new GetMessagesForChatAndUserCommand(UberSocketHandler.ACTIVE_SESSIONS, senderId, chatId).run();
 
                 Stream.concat(dao.getUsersByChat(chat).stream(), dao.getUsersByChat(scope).stream())
                         .map(User::getId)
                         .forEach(userId -> {
-                            new GetChatsForUserCommand(session, userId).run();
-                            new GetMessagesForChatAndUserCommand(session, userId, chatId).run();
+                            new GetChatsForUserCommand(sessions, userId).run();
+                            new GetMessagesForChatAndUserCommand(sessions, userId, chatId).run();
                         });
 
             } catch (Exception e) {

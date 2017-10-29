@@ -28,8 +28,9 @@ public class GetMessagesForChatAndUserCommand extends Command {
         chatId = json.getLong("chat_id");
     }
 
-    public GetMessagesForChatAndUserCommand(Session session, Long userId, Long chatId) {
-        super(session);
+    public GetMessagesForChatAndUserCommand(List<Session> sessions, Long userId, Long chatId) {
+        super(sessions);
+
         this.userId = userId;
         this.chatId = chatId;
     }
@@ -49,32 +50,33 @@ public class GetMessagesForChatAndUserCommand extends Command {
                                 || userScopes.contains(dao.getScopeByMessage(message)))
                 .collect(Collectors.toList());
 
-        try {
-            session.getRemote().sendString(
-                    new JSONObject() {{
-                        put("method", "get_messages");
-                        put("payload",
-                                new JSONObject() {{
-                                    put("messages", new JSONArray(filteredMessages.stream()
-                                            .map(message -> new JSONObject() {{
-                                                put("body", message.getText());
-                                                put("time", message.getTime());
-                                                put("sender_id", message.getSender().getName());
-                                                put("chat_id", dao.getChatByMessage(message).getId());
-                                                put("chat_name", dao.getChatByMessage(message).getName());
-                                                put("scope_id", dao.getScopeByMessage(message) != null
-                                                        ? dao.getScopeByMessage(message).getId()
-                                                        : null);
-                                                put("scope_name", dao.getScopeByMessage(message) != null
-                                                        ? dao.getScopeByMessage(message).getName()
-                                                        : null);
-                                            }})
-                                            .collect(Collectors.toList())));
-                                }});
-                    }}.toString());
-        } catch (IOException e) {
-            System.err.println("some shit happened during GetMessagesForChatAndUserCommand execution");
-            e.printStackTrace();
-        }
+        sessions.forEach(session -> {
+            try {
+                session.getRemote().sendString(
+                        new JSONObject() {{
+                            put("method", "get_messages");
+                            put("payload",
+                                    new JSONObject() {{
+                                        put("messages", new JSONArray(filteredMessages.stream()
+                                                .map(message -> new JSONObject() {{
+                                                    put("body", message.getText());
+                                                    put("time", message.getTime());
+                                                    put("sender_id", message.getSender().getName());
+                                                    put("chat_id", dao.getChatByMessage(message).getId());
+                                                    put("chat_name", dao.getChatByMessage(message).getName());
+                                                    put("scope_id", dao.getScopeByMessage(message) != null
+                                                            ? dao.getScopeByMessage(message).getId()
+                                                            : null);
+                                                    put("scope_name", dao.getScopeByMessage(message) != null
+                                                            ? dao.getScopeByMessage(message).getName()
+                                                            : null);
+                                                }})
+                                                .collect(Collectors.toList())));
+                                    }});
+                        }}.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

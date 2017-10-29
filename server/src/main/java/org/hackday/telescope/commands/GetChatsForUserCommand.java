@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetChatsForUserCommand extends Command {
@@ -16,13 +18,13 @@ public class GetChatsForUserCommand extends Command {
     private Long userId;
 
     public GetChatsForUserCommand(Session session, String input) {
-        super(session);
+        super(Collections.singletonList(session));
 
         userId = new JSONObject(input).getLong("user_id");
     }
 
-    public GetChatsForUserCommand(Session session, Long userId) {
-        super(session);
+    public GetChatsForUserCommand(List<Session> sessions, Long userId) {
+        super(sessions);
 
         this.userId = userId;
     }
@@ -33,26 +35,28 @@ public class GetChatsForUserCommand extends Command {
         if (user == null) {
             return; // todo may be exception
         }
-        try {
-            session.getRemote().sendString(
-                    new JSONObject() {{
-                        put("method", "get_chats");
-                        put("payload", new JSONObject() {{
-                            put("chats", new JSONArray(dao.getChatsByUser(user).stream()
-                                    .map(chat -> new JSONObject() {{
-                                        put("id", chat.getId());
-                                        put("name", chat.getName());
-                                        put("is_scope", chat.isScope());
-                                        put("lastMessageText", chat.getLastMessage() != null
-                                                ? chat.getLastMessage().getText()
-                                                : null);
-                                    }})
-                                    .collect(Collectors.toList())));
-                        }});
-                    }}.toString());
-        } catch (IOException e) {
-            System.err.println("some shit happened during GetChatsForUserCommand execution");
-            e.printStackTrace();
-        }
+
+        sessions.forEach(session -> {
+            try {
+                session.getRemote().sendString(
+                        new JSONObject() {{
+                            put("method", "get_chats");
+                            put("payload", new JSONObject() {{
+                                put("chats", new JSONArray(dao.getChatsByUser(user).stream()
+                                        .map(chat -> new JSONObject() {{
+                                            put("id", chat.getId());
+                                            put("name", chat.getName());
+                                            put("is_scope", chat.isScope());
+                                            put("lastMessageText", chat.getLastMessage() != null
+                                                    ? chat.getLastMessage().getText()
+                                                    : null);
+                                        }})
+                                        .collect(Collectors.toList())));
+                            }});
+                        }}.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
