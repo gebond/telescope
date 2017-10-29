@@ -30,6 +30,11 @@ API =
             for (var i = 0; i < contactChats.length; i++) {
                 (function (chat, i) {
                     document.getElementById('contact_' + chat.id).addEventListener('click', function () {
+                        if (chat.is_scope) {
+                            localStorage.setItem('inScope', 'true');
+                        } else {
+                            localStorage.setItem('inScope', 'false');
+                        }
                         getMessages({chat_id: chat.id, user_id: localStorage.getItem("userId")});
                         for (var j = 0; j < chats.length; j++) {
                             if (j !== i) {
@@ -73,7 +78,12 @@ API =
                     "                        </div>" +
                     "<span style='color:grey;font-size:12px;margin: 6px;float:right'>" + new Date(messages[i].time).getHours() + ":" +
                      ((new Date(messages[i].time).getMinutes() < 10) ? "0" + new Date(messages[i].time).getMinutes() : new Date(messages[i].time).getMinutes()) +
-                    "                     </span></div>"
+                    "                     </span><span style='color:#111111;font-size:12px;margin: 6px;float:right'>" +
+                    (messages[i].scope_id ?
+                        (localStorage.getItem('inScope') === 'true' ? messages[i].chat_name
+                        : messages[i].scope_name)  
+                        : '') + "</span>"
+                    + "</div>"
             }
             if (messages.length === 0) {
                 messageBox.innerHTML = '<b>No messages yet</b>';
