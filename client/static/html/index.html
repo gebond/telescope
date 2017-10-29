@@ -28,6 +28,14 @@
                 </script>
             </div>
             <div class="left">
+            
+                <div class="scopes">
+                 
+                    <div class="scope_item" id="scopeId">
+                        Name
+                     </div>
+
+                </div>
             </div>
             <div class="screen">
                  <div class="messages">
@@ -83,8 +91,10 @@
         </script>
         <script>
             document.getElementsByName("send-to-scope-message")[0].onclick = function() {
+                getScopes(getScopes);
                 sendmessage = {
                     text: document.getElementById("message-text").value,
+                    scope_id: localStorage.getItem('scopeId'),
                     chat_id: localStorage.getItem('chatId'),
                     sender_id: localStorage.getItem('userId')};
                 sendMessage(sendmessage);

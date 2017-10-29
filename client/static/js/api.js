@@ -9,9 +9,9 @@ API =
         loadContacts: function (chats) {
             chats = chats['chats'];
             var panel = document.getElementsByClassName('left')[0];
-            panel.innerHTML = '';
+            //panel.innerHTML = '';
             for (var i = 0; i < chats.length; i++) {
-                panel.innerHTML += '<div class="contact" id="contact_' +
+                panel.innerHTML = '<div class="contact" id="contact_' +
                     chats[i].id + '">' +
                     '                    <div class="avatar">' +
                     '                        ' +
@@ -23,7 +23,7 @@ API =
                     '                            <div class="last-message">' +
                     (chats[i].lastMessageText || '') + '</div>' +
                     '                        </div>' +
-                    '                </div>';
+                    '                </div>' + panel.innerHTML;
 
             }
             var contactChats = document.getElementsByClassName('contact');
