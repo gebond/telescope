@@ -4,7 +4,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>Telescote</title>
+        <title>Telescope</title>
         <meta name="description" content="telescope">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,6 +65,7 @@
                 waitForSocketConnection(socket, function () {
                     getChats({user_id: localStorage.getItem("userId")})
                 });
+                setFixedHeightToScreen();
             } else {
                 window.location.replace('/../html/login');
             }

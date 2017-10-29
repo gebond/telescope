@@ -69,10 +69,11 @@ API =
                     "                            </div>" +
                     "                            <div class=\"message-text\">" +
                     messages[i].body +
-                    "<span style='color:grey;font-size:12px;margin: 6px;'>" + new Date(messages[i].time).getHours() + ":" + new Date(messages[i].time).getMinutes()
-                    "                            </span></div>" +
+                    "                           </div>" +
                     "                        </div>" +
-                    "                    </div>"
+                    "<span style='color:grey;font-size:12px;margin: 6px;float:right'>" + new Date(messages[i].time).getHours() + ":" +
+                     ((new Date(messages[i].time).getMinutes() < 10) ? "0" + new Date(messages[i].time).getMinutes() : new Date(messages[i].time).getMinutes()) +
+                    "                     </span></div>"
             }
             if (messages.length === 0) {
                 messageBox.innerHTML = '<b>No messages yet</b>';

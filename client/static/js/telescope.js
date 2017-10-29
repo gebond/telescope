@@ -1,6 +1,6 @@
 
-var colorHashs =      ['#F44336', '#9C27B0', '#3F51B5', '#2196F3', '#8BC34A', '#FF9800'];
-var lightColorHashs = ['#EF9A9A', '#CE93D8', '#9FA8DA', '#90CAF9', '#C5E1A5', '#FFCC80'];
+var colorHashes =      ['#F44336', '#9C27B0', '#3F51B5', '#2196F3', '#8BC34A', '#FF9800'];
+var lightColorHashes = ['#EF9A9A', '#CE93D8', '#9FA8DA', '#90CAF9', '#C5E1A5', '#FFCC80'];
 
 var chats = {};
 
@@ -13,8 +13,8 @@ var tuneAvatars = function(name) {
 		var userName = userElms[i].innerText;
 		if (!chats[userName]) {
 			chats[userName] = {};
-			var num = Math.floor((Math.random() * colorHashs.length) + 0);
-			chats[userName].color = colorHashs[num];
+			var num = Math.floor((Math.random() * colorHashes.length) + 0);
+			chats[userName].color = colorHashes[num];
 			avatarElms[i].style['background'] = chats[userName].color;
 			chats[userName].id = contactElms[i] ? contactElms[i].getAttribute('id').split('_')[1] : '';
 			
@@ -35,11 +35,18 @@ var tuneAvatars = function(name) {
 					break;
 				}
 			}
-			messageElms[i].style['background'] = lightColorHashs[colorHashs.indexOf(bColor)];
+			messageElms[i].style['background'] = lightColorHashes[colorHashes.indexOf(bColor)];
 		}
 	}
 }
 
 var setFixedHeightToScreen = function() {
-	var screenElm = document.getElementsByClassName('');
+	var screenElm = document.getElementsByClassName('screen')[0];
+	var w = window;
+  var d = document;
+  var e = d.documentElement;
+	var height =  w.innerHeight|| e.clientHeight|| g.clientHeight;
+	var headerHeight = document.getElementsByClassName('header')[0].offsetHeight;
+	var messageToolHeight = document.getElementsByClassName('message-tool')[0].offsetHeight;
+	screenElm.style['height'] = (height - headerHeight - messageToolHeight)  + 'px';
 }
