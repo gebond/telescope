@@ -118,7 +118,7 @@ function getScopes(getScopes) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         method: "get_scopes",
-        payload: JSON.stringify(getchats)
+        payload: JSON.stringify(getScopes)
     };
     // Send the msg object as a JSON-formatted string.
     socket.send(JSON.stringify(msg));
