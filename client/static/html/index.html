@@ -29,13 +29,10 @@
             </div>
             <div class="left">
             
-                <div class="scopes">
+                
+            </div>
+            <div class="scopes">
                  
-                    <div class="scope_item" id="scopeId">
-                        Name
-                     </div>
-
-                </div>
             </div>
             <div class="screen">
                  <div class="messages">
@@ -71,7 +68,8 @@
 
             if (localStorage.getItem('userId')) {
                 waitForSocketConnection(socket, function () {
-                    getChats({user_id: localStorage.getItem("userId")})
+                    getChats({user_id: localStorage.getItem('userId')});
+                    getScopes({user_id: localStorage.getItem('userId')});
                 });
                 setFixedHeightToScreen();
             } else {

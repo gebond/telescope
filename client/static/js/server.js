@@ -46,7 +46,7 @@ socket.onmessage = function (event) {
         API.invitedToChat(data_json.payload)
     }
     else if (data_json.method === "get_scopes") {
-        API.loadMessages()
+        API.loadScopes(data_json.payload);
     }
     else {
         console.log("wrong message!")

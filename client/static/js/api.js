@@ -9,7 +9,7 @@ API =
         loadContacts: function (chats) {
             chats = chats['chats'];
             var panel = document.getElementsByClassName('left')[0];
-            //panel.innerHTML = '';
+            panel.innerHTML = '';
             for (var i = 0; i < chats.length; i++) {
                 panel.innerHTML = '<div class="contact" id="contact_' +
                     chats[i].id + '">' +
@@ -112,6 +112,29 @@ API =
         loadScopes: function (scopes) {
             // reload chat
             scopes = scopes['scopes'];
-            console.log(scopes);
+            var scopesBox = document.getElementsByClassName('scopes')[0];
+            for (var i = 0; i < scopes.length; i++) {
+                scopesBox.innerHTML += '<div class="scope-item" id="scope_'+scopes[i].id+'">' +
+                        scopes[i].name +
+                     '</div>';
+            }
+            var scopeItems = document.getElementsByClassName('scope-item');
+            for (var i = 0; i < scopeItems.length; i++) {
+                (function(scopeItem, i){
+                    document.getElementById('scope_' + scopes[i].id).addEventListener('click', function() {
+                        document.getElementById('scope_' + scopes[i].id).style['background'] = '#497799';
+                        document.getElementById('scope_' + scopes[i].id).style['color'] = '#ffffff';
+                        for (var j = 0; j < scopeItems.length; j++) {
+                            if (j !== i) {
+                                document.getElementById('scope_' + scopes[j].id).style['background'] = '#ffffff';
+                                document.getElementById('scope_' + scopes[j].id).style['color'] = '#497799';
+                            } else {
+                                localStorage.setItem('scopeId', scopes[i].id);
+                            }
+                        }
+                    });
+                })(scopeItems[i], i);
+            }
+
         }
     }

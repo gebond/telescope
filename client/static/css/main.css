@@ -67,17 +67,17 @@ input[type=button]{
 	min-height: 0px;
 	width: 100%;
 	margin-top: 6px;
-	background: #ffffff;
-	padding: 4px;
 }
 
-.scope_item {
+.scope-item {
 	width: 100%;
 	background: #ffffff;
 	cursor: pointer;
 	color: #497799;
 	font-weight: bold;
 	text-align: center;
+	padding: 4px;
+	margin: 4px 0;
 }
 
 .screen {
@@ -115,6 +115,7 @@ input[type=button]{
 	width: 100%;
 	float: right;
 	border: 1px solid lightgrey;
+	padding: 3px;
 }
 
 .con-data {
