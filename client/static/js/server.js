@@ -45,6 +45,9 @@ socket.onmessage = function (event) {
     else if (data_json.method === "invite_to_chat") {
         API.invitedToChat(data_json.payload)
     }
+    else if (data_json.method === "get_scopes") {
+        API.loadMessages()
+    }
     else {
         console.log("wrong message!")
     }
@@ -102,6 +105,19 @@ function getChats(getchats) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     var msg = {
         method: "get_chats",
+        payload: JSON.stringify(getchats)
+    };
+    // Send the msg object as a JSON-formatted string.
+    socket.send(JSON.stringify(msg));
+    // Blank the text input element, ready to receive the next line of text from the user.
+    //document.getElementById("text").value = "";
+}
+
+// sendmessage = [{user_id}]
+function getScopes(getScopes) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    var msg = {
+        method: "get_scopes",
         payload: JSON.stringify(getchats)
     };
     // Send the msg object as a JSON-formatted string.

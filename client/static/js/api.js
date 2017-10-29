@@ -94,5 +94,12 @@ API =
         // when someone add us to chat
         invitedToChat: function () {
             // reload chat
+        },
+
+        // when someone add us to chat
+        loadScopes: function (scopes) {
+            // reload chat
+            scopes = scopes['scopes'];
+            console.log(scopes);
         }
     }
