@@ -64,6 +64,7 @@ public class UberDao {
         addChat(chat1);
         addChat(chat2);
         addChat(chat3);
+        addChat(chat4);
 
         join2Chat(gleb, chat1);
         join2Chat(vlad, chat1);
