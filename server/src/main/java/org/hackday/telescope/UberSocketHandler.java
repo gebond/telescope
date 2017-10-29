@@ -1,6 +1,5 @@
 package org.hackday.telescope;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +60,12 @@ public class UberSocketHandler {
             @Override
             public Command createCommand(Session session, String string) {
                 return new GetChatsForUserCommand(session, string);
+            }
+        },
+        GET_SCOPES {
+            @Override
+            public Command createCommand(Session session, String string) {
+                return new GetScopesCommand(session, string);
             }
         },
         GET_MESSAGES {
