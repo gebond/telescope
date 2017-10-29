@@ -24,7 +24,7 @@ input[type=button]{
 	font-weight: bold;
 	float: right;
 	margin: 4px;
-	font-size: 0.8175em;
+	font-size: 0.9em;
 	background: #ededed;
 }
 
@@ -52,7 +52,7 @@ input[type=button]{
 	margin: 0 6px;
 }
 
-.left {
+.left-panel {
 	min-height: 150px;
 	width: 30%;
 	height: auto;
@@ -63,10 +63,17 @@ input[type=button]{
 	overflow: auto;
 }
 
+.left {
+	min-height: 0px;
+	width: 100%;
+	width: 100%;
+}
+
 .scopes {
 	min-height: 0px;
 	width: 100%;
 	margin-top: 6px;
+	width: 100%;
 }
 
 .scope-item {

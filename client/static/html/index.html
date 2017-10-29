@@ -22,17 +22,19 @@
         <div class="main">
             <div class="header">
                 <img class="header-menu" src="/../png/ic_menu_white_24dp_2x.png"></img>
-                <span id="header-current-user">Telescope. Current User:</span>
+                <span id="header-current-user">Telescope</span>
                 <script>
-                    document.getElementById('header-current-user').innerHTML+='<div>' + localStorage.getItem('userName')+'</div>'
+                    document.getElementById('header-current-user').innerHTML+='<span style="font-size:1em; float:right;margin-right:12px;">' + localStorage.getItem('userName')+'</span>'
                 </script>
             </div>
-            <div class="left">
+            <div class="left-panel">
+                <div class="left">
             
                 
-            </div>
-            <div class="scopes">
+                </div>
+                <div class="scopes">
                  
+                </div>
             </div>
             <div class="screen">
                  <div class="messages">
