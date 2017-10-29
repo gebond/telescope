@@ -9,6 +9,7 @@ import org.hackday.telescope.models.User;
 import org.json.JSONObject;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -53,7 +54,10 @@ public class SendMessageCommand extends Command {
                 new GetChatsForUserCommand(sessions, senderId).run();
                 new GetMessagesForChatAndUserCommand(sessions, senderId, chatId).run();
 
-                Stream.concat(dao.getUsersByChat(chat).stream(), dao.getUsersByChat(scope).stream())
+                List<User> usersByChat = dao.getUsersByChat(chat);
+                List<User> usersByScope = dao.getUsersByChat(scope);
+                Stream.concat(usersByChat != null ? usersByChat.stream() : Stream.empty(),
+                        usersByScope != null ? usersByScope.stream() : Stream.empty())
                         .map(User::getId)
                         .forEach(userId -> {
                             Session sessionForUser = UberSocketHandler.getSessionForUser(userId);

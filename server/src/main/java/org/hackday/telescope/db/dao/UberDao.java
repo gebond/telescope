@@ -164,6 +164,7 @@ public class UberDao {
     }
 
     public List<User> getUsersByChat(Chat chat) {
+        if (chat == null) return new ArrayList<>();
         return chatId2UserIdMap.get(chat.getId()).stream()
                 .map(users::get)
                 .collect(Collectors.toList());
