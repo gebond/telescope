@@ -51,6 +51,14 @@ API =
                     })
                 })(chats[i], i);
             }
+
+            if (localStorage.getItem('chatId')) {
+                console.log(document.getElementById('contact_' + localStorage.getItem('chatId')));
+                document.getElementById('contact_' + localStorage.getItem('chatId')).style['background'] = '#497799';
+                document.getElementById('contact_' + localStorage.getItem('chatId')).style['color'] = '#ffffff';
+                document.getElementById('contact_' + localStorage.getItem('chatId')).getElementsByClassName('last-message')[0].style['color'] = '#ffffff';
+                getMessages({chat_id: localStorage.getItem("chatId"), user_id: localStorage.getItem("userId")});
+            }
             if (contactChats.length === 0) {
                 contactChats.innerHTML = '<b>No chats yet</b>';
             }
@@ -63,7 +71,17 @@ API =
             console.log(messages);
             messageBox.innerHTML = '';
             for (var i = 0; i < messages.length; i++) {
-                messageBox.innerHTML += "<div class=\"message " + (messages[i].scope_id ? 'scope' : '') + " \" id='" +
+                messageBox.innerHTML += "<div class=\"message " + (
+
+                    localStorage.getItem('inScope') === 'true' ? ''
+
+                    :
+                    (messages[i].scope_id ? 'scope' : ''
+
+
+                    )) + " \" id='" +
+                    
+
                     (messages[i].scope_id || '') + "'>" +
                     "                        <span class=\"avatar\">" +
                     "                        " +
