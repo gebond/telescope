@@ -9,6 +9,7 @@ API =
         loadContacts: function (chats) {
             chats = chats['chats'];
             var panel = document.getElementsByClassName('left')[0];
+            panel.innerHTML = '';
             for (var i = 0; i < chats.length; i++) {
                 panel.innerHTML += '<div class="contact" id="contact_' +
                     chats[i].id + '">' +

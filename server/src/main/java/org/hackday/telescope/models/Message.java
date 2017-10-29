@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Message implements Comparable<Message> {
+public class    Message implements Comparable<Message> {
     private static final AtomicLong ID_COUNTER = new AtomicLong(1);
 
     private Long id;

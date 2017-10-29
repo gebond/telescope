@@ -10,9 +10,7 @@ import org.hackday.telescope.models.Message;
 import org.hackday.telescope.models.User;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UberDao {
@@ -38,7 +36,7 @@ public class UberDao {
         chatId2MessageIdMap = ArrayListMultimap.create();
         messageId2ScopeId = new HashMap<>();
 
-//        mock(); // TODO :-)
+        mock(); // TODO :-)
 
         System.out.println("DAO initialized!");
     }
@@ -104,13 +102,15 @@ public class UberDao {
             user = new User(username);
             users.put(user.getId(), user);
 
-            try (Connection conn = Application.getDbConnection()){
+            try (Connection conn = Application.getDbConnection()) {
                 PreparedStatement insertUserPS = conn.prepareStatement(QueryProvider.INSERT_INTO_USERS);
                 insertUserPS.setLong(1, user.getId());
                 insertUserPS.setString(2, user.getName());
                 insertUserPS.execute();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("getOrCreateUserByName - Only local DB mode?");
             }
         }
 
@@ -128,8 +128,10 @@ public class UberDao {
             insertChatPS.setString(2, chat.getName());
             insertChatPS.setBoolean(3, chat.isScope());
             insertChatPS.execute();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("addChat - Only local DB mode?");
         }
 
         return this;
@@ -192,8 +194,10 @@ public class UberDao {
             insertLinkPS.setLong(1, user.getId());
             insertLinkPS.setLong(2, chat.getId());
             insertLinkPS.execute();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("join2Chat - Only local DB mode?");
         }
 
         return this;
@@ -226,8 +230,10 @@ public class UberDao {
                 insertMessagePS.setNull(6, Types.BIGINT);
             }
             insertMessagePS.execute();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("sendMessage - Only local DB mode?");
         }
 
         return this;
@@ -246,8 +252,10 @@ public class UberDao {
             deleteFromLinksPS.setLong(1, user.getId());
             deleteFromLinksPS.setLong(2, chat.getId());
             deleteFromLinksPS.execute();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("removeFromChat - Only local DB mode?");
         }
 
         return this;
@@ -296,6 +304,15 @@ public class UberDao {
 
                 chatId2UserIdMap.put(chatId, userId);
                 userId2ChatIdMap.put(userId, chatId);
+            }
+
+            for (Chat chat : chats.values()) {
+                List<Message> collect = chatId2MessageIdMap.get(chat.getId()).stream()
+                        .map(messages::get)
+                        .sorted(Comparator.comparing(Message::getTime))
+                        .collect(Collectors.toList());
+                Message lastMessage = collect.isEmpty() ? null : collect.get(collect.size() - 1);
+                chat.setLastMessage(lastMessage);
             }
 
             System.out.println("Extracting complete!");
