@@ -93,7 +93,7 @@ public class UberDao {
         sendMessage(msg3, chat1, null);
         sendMessage(msg4, chat2, null);
         sendMessage(msg5, chat2, chat3);
-        sendMessage(msg5, chat1, chat4);
+        sendMessage(msg6, chat1, chat4);
 
         chat1.setLastMessage(msg3);
         chat2.setLastMessage(msg5);
