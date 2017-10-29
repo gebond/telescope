@@ -59,6 +59,7 @@ public class UberDao {
         Chat chat1 = new Chat("Chat my #1", false);
         Chat chat2 = new Chat("Chat my #2", false);
         Chat chat3 = new Chat("Chat scope", true);
+        Chat chat4 = new Chat("Chat scope#2", true);
 
         addChat(chat1);
         addChat(chat2);
@@ -76,21 +77,27 @@ public class UberDao {
         join2Chat(gleb, chat3);
         join2Chat(vlad, chat3);
 
+        join2Chat(gleb, chat4);
+        join2Chat(guseyn, chat4);
+
         Message msg1 = new Message(vlad, "vlad msg");
         Message msg2 = new Message(gleb, "gleb msg");
         Message msg3 = new Message(guseyn, "guseyn msg");
         Message msg4 = new Message(ilya, "ilya msg");
         Message msg5 = new Message(vlad, "vlad msg 2");
+        Message msg6 = new Message(gleb, "gleb msg 2");
 
         sendMessage(msg1, chat1, null);
         sendMessage(msg2, chat1, null);
         sendMessage(msg3, chat1, null);
         sendMessage(msg4, chat2, null);
         sendMessage(msg5, chat2, chat3);
+        sendMessage(msg5, chat1, chat4);
 
         chat1.setLastMessage(msg3);
         chat2.setLastMessage(msg5);
         chat3.setLastMessage(msg5);
+        chat4.setLastMessage(msg6);
 
     }
 
