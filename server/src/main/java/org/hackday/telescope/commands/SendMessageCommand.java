@@ -8,6 +8,7 @@ import org.hackday.telescope.models.Message;
 import org.hackday.telescope.models.User;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -43,18 +44,21 @@ public class SendMessageCommand extends Command {
             Chat scope = scopeId != null ? dao.getChatById(scopeId) : null;
 
             Message message = new Message(sender, text);
-            chat.setLastMessage(message);
+            if (scope != null) {
+                chat.setLastMessage(message);
+            }
             dao.sendMessage(message, chat, scope);
 
             try {
-                new GetChatsForUserCommand(UberSocketHandler.ACTIVE_SESSIONS, senderId).run();
-                new GetMessagesForChatAndUserCommand(UberSocketHandler.ACTIVE_SESSIONS, senderId, chatId).run();
+                new GetChatsForUserCommand(sessions, senderId).run();
+                new GetMessagesForChatAndUserCommand(sessions, senderId, chatId).run();
 
                 Stream.concat(dao.getUsersByChat(chat).stream(), dao.getUsersByChat(scope).stream())
                         .map(User::getId)
                         .forEach(userId -> {
-                            new GetChatsForUserCommand(sessions, userId).run();
-                            new GetMessagesForChatAndUserCommand(sessions, userId, chatId).run();
+                            Session sessionForUser = UberSocketHandler.getSessionForUser(userId);
+                            new GetChatsForUserCommand(Collections.singletonList(sessionForUser), userId).run();
+                            new GetMessagesForChatAndUserCommand(Collections.singletonList(sessionForUser), userId, chatId).run();
                         });
 
             } catch (Exception e) {

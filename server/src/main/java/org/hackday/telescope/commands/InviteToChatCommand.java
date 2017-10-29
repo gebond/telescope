@@ -7,6 +7,8 @@ import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
 import org.json.JSONObject;
 
+import java.util.Collections;
+
 public class InviteToChatCommand extends Command {
 
     private final UberDao dao = UberDao.getInstance();
@@ -29,7 +31,8 @@ public class InviteToChatCommand extends Command {
         User user = dao.getUserById(targetUserId);
 
         dao.join2Chat(user, chat);
-        new GetChatsForUserCommand(UberSocketHandler.ACTIVE_SESSIONS, user.getId()).run();
-        new GetScopesCommand(UberSocketHandler.ACTIVE_SESSIONS, user.getId()).run();
+        Session sessionForUser = UberSocketHandler.getSessionForUser(user.getId());
+        new GetChatsForUserCommand(Collections.singletonList(sessionForUser), user.getId()).run();
+        new GetScopesCommand(Collections.singletonList(sessionForUser), user.getId()).run();
     }
 }

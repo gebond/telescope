@@ -325,6 +325,7 @@ public class UberDao {
 
             for (Chat chat : chats.values()) {
                 List<Message> collect = chatId2MessageIdMap.get(chat.getId()).stream()
+                        .filter(messageId -> !messageId2ScopeId.containsKey(messageId))
                         .map(messages::get)
                         .sorted(Comparator.comparing(Message::getTime))
                         .collect(Collectors.toList());

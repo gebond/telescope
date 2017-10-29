@@ -45,7 +45,8 @@ public class CreateChatCommand extends Command {
         users.addAll(inviteeIds.stream().map(dao::getUserById).collect(Collectors.toList()));
         users.forEach(user -> {
             dao.join2Chat(user, chat);
-            new GetChatsForUserCommand(UberSocketHandler.ACTIVE_SESSIONS, user.getId()).run();
+            Session sessionForUser = UberSocketHandler.getSessionForUser(user.getId());
+            new GetChatsForUserCommand(Collections.singletonList(sessionForUser), user.getId()).run();
         });
 
         sessions.forEach(session -> {

@@ -1,6 +1,7 @@
 package org.hackday.telescope.commands;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.hackday.telescope.UberSocketHandler;
 import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.User;
@@ -21,6 +22,8 @@ public class GetScopesCommand extends Command {
         super(session);
 
         userId = new JSONObject(input).getLong("user_id");
+
+        UberSocketHandler.SESSIONS_MAP.putIfAbsent(session, userId);
     }
 
     public GetScopesCommand(List<Session> sessions, Long userId) {

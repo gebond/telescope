@@ -1,6 +1,7 @@
 package org.hackday.telescope.commands;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.hackday.telescope.UberSocketHandler;
 import org.hackday.telescope.db.dao.UberDao;
 import org.hackday.telescope.models.Chat;
 import org.hackday.telescope.models.Message;
@@ -26,6 +27,8 @@ public class GetMessagesForChatAndUserCommand extends Command {
         JSONObject json = new JSONObject(input);
         userId = json.getLong("user_id");
         chatId = json.getLong("chat_id");
+
+        UberSocketHandler.SESSIONS_MAP.putIfAbsent(session, userId);
     }
 
     public GetMessagesForChatAndUserCommand(List<Session> sessions, Long userId, Long chatId) {
