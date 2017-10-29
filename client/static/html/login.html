@@ -54,6 +54,7 @@
                 $.get('http://localhost:5000/rest/login',
                     { username:  document.getElementById("login-field").value }, function(data) {
                         console.log(data.payload);
+                        localStorage.setItem('userName', document.getElementById("login-field").value);
                         localStorage.setItem('userId', data.payload.user_id);
                         window.location.replace('/../');
                     });

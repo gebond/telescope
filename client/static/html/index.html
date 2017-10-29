@@ -22,7 +22,10 @@
         <div class="main">
             <div class="header">
                 <img class="header-menu" src="/../png/ic_menu_white_24dp_2x.png"></img>
-                <span>Telescope</span>
+                <span id="header-current-user">Telescope. Current User:</span>
+                <script>
+                    document.getElementById('header-current-user').innerHTML+='<div>' + localStorage.getItem('userName')+'</div>'
+                </script>
             </div>
             <div class="left">
             </div>
@@ -32,12 +35,13 @@
 
                 </div>
                 <div class="message-tool">
-                    <textarea class="message-area"></textarea>
-                    <input type="button" name="send-message" value="SEND"/>
+                    <textarea id="message-text" class="message-area"></textarea>
+                    <input type="button" name="send-message" value="SEND" onclick=/>
                     <input type="button" name="send-to-scope-message" value="SEND TO SCOPE"/>
                 </div>
             </div>
         </div>
+        <!-- CHATS -->
         <script type="text/javascript">
             function waitForSocketConnection(socket, callback){
                 setTimeout(
@@ -58,9 +62,27 @@
             }
 
             waitForSocketConnection(socket, function () {
-                console.log("govno");
                 getChats({user_id: localStorage.getItem("userId")})
             });
+        </script>
+        <!--  SEND MESSAGES -->
+        <script>
+            document.getElementsByName("send-message")[0].onclick = function() {
+                sendmessage = {
+                    text: document.getElementById("message-text").value,
+                    chat_id: 100002, // HOW CHEK
+                    sender_id: localStorage.getItem('userId')};
+                sendMessage(sendmessage);
+            }
+        </script>
+        <script>
+            document.getElementsByName("send-to-scope-message")[0].onclick = function() {
+                sendmessage = {
+                    text: document.getElementById("message-text").value,
+                    chat_id: 100002,
+                    sender_id: localStorage.getItem('userId')};
+                sendMessage(sendmessage);
+            }
         </script>
     </body>
 </html>

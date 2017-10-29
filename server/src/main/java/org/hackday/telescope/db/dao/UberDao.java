@@ -50,7 +50,7 @@ public class UberDao {
         return instance;
     }
 
-    private void mock() {
+    public void mock() {
         User gleb = getOrCreateUserByName("gleb");
         User vlad = getOrCreateUserByName("vlad");
         User guseyn = getOrCreateUserByName("guseyn");
@@ -109,7 +109,7 @@ public class UberDao {
                 insertUserPS.setLong(1, user.getId());
                 insertUserPS.setString(2, user.getName());
                 insertUserPS.execute();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -128,7 +128,7 @@ public class UberDao {
             insertChatPS.setString(2, chat.getName());
             insertChatPS.setBoolean(3, chat.isScope());
             insertChatPS.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -192,7 +192,7 @@ public class UberDao {
             insertLinkPS.setLong(1, user.getId());
             insertLinkPS.setLong(2, chat.getId());
             insertLinkPS.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -226,7 +226,7 @@ public class UberDao {
                 insertMessagePS.setNull(6, Types.BIGINT);
             }
             insertMessagePS.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -246,7 +246,7 @@ public class UberDao {
             deleteFromLinksPS.setLong(1, user.getId());
             deleteFromLinksPS.setLong(2, chat.getId());
             deleteFromLinksPS.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -300,7 +300,7 @@ public class UberDao {
 
             System.out.println("Extracting complete!");
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

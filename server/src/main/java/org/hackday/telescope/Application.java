@@ -72,6 +72,10 @@ public class Application {
     }
 
     public static Connection getDbConnection() throws SQLException {
-        return ds.getConnection();
+        try {
+            return ds.getConnection();
+        } catch (NullPointerException ignored) {
+        }
+        return null;
     }
 }

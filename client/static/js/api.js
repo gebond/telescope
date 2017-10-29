@@ -44,7 +44,9 @@ API =
                     })
                 })(chats[i], i);
             }
-            
+            if (contactChats.length === 0) {
+                contactChats.innerHTML = '<b>No chats yet</b>';
+            }
             tuneAvatars();
         },
 
@@ -70,7 +72,7 @@ API =
                     "                    </div>"
             }
             if (messages.length === 0) {
-                messageBox.innerHTML = '<b>No messages</b>';
+                messageBox.innerHTML = '<b>No messages yet</b>';
             }
             tuneAvatars();
         },
