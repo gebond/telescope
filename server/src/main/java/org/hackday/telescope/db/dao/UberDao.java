@@ -38,7 +38,7 @@ public class UberDao {
         messageId2ScopeId = new HashMap<>();
         messageId2ChatId = new HashMap<>();
 
-        mock(); // TODO :-)
+//        mock(); // TODO :-)
 
         System.out.println("DAO initialized!");
     }
