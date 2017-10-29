@@ -40,6 +40,9 @@ public class GetChatsForUserCommand extends Command {
         }
 
         sessions.forEach(session -> {
+            if (session == null) {
+                return;
+            }
             try {
                 session.getRemote().sendString(
                         new JSONObject() {{
@@ -57,7 +60,7 @@ public class GetChatsForUserCommand extends Command {
                                         .collect(Collectors.toList())));
                             }});
                         }}.toString());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

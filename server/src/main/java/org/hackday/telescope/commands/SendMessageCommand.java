@@ -69,8 +69,8 @@ public class SendMessageCommand extends Command {
                 System.err.println("some shit happened during SendMessageCommand execution");
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("Message is already sent");
         }
-
-        throw new IllegalStateException("Message is already sent!");
     }
 }
