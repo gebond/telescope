@@ -25,6 +25,8 @@ var tuneAvatars = function(name) {
 		avatarElms[i].innerHTML = '<span style="vertical-align:middle;display: inline-block;color:white;font-weight:bold;">' 
 			+ userName[0].toUpperCase() + '</span>';
 	}
+
+	if (localStorage.getItem('inScope') !== 'true') {
 	for (var i = 0; i < messageElms.length; i++) {
 		var chatId = messageElms[i].getAttribute('id');
 		if (chatId) {
@@ -37,7 +39,9 @@ var tuneAvatars = function(name) {
 			}
 			messageElms[i].style['background'] = lightColorHashes[colorHashes.indexOf(bColor)];
 		}
+		}
 	}
+
 }
 
 var setFixedHeightToScreen = function() {
