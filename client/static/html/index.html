@@ -61,9 +61,13 @@
                     }, 5); // wait 5 milisecond for the connection...
             }
 
-            waitForSocketConnection(socket, function () {
-                getChats({user_id: localStorage.getItem("userId")})
-            });
+            if (localStorage.getItem('userId')) {
+                waitForSocketConnection(socket, function () {
+                    getChats({user_id: localStorage.getItem("userId")})
+                });
+            } else {
+                window.location.replace('/../html/login');
+            }
         </script>
         <!--  SEND MESSAGES -->
         <script>
