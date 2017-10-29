@@ -60,6 +60,8 @@ public class GetMessagesForChatAndUserCommand extends Command {
                                                 put("body", message.getText());
                                                 put("time", message.getTime());
                                                 put("sender_id", message.getSender().getName());
+                                                put("chat_id", dao.getChatByMessage(message).getId());
+                                                put("chat_name", dao.getChatByMessage(message).getName());
                                                 put("scope_id", dao.getScopeByMessage(message) != null
                                                         ? dao.getScopeByMessage(message).getId()
                                                         : null);

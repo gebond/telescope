@@ -25,6 +25,7 @@ public class UberDao {
 
     private Multimap<Long, Long> chatId2MessageIdMap;
     private Map<Long, Long> messageId2ScopeId;
+    private Map<Long, Long> messageId2ChatId;
 
     private UberDao() {
         users = new HashMap<>();
@@ -35,8 +36,9 @@ public class UberDao {
         userId2ChatIdMap = ArrayListMultimap.create();
         chatId2MessageIdMap = ArrayListMultimap.create();
         messageId2ScopeId = new HashMap<>();
+        messageId2ChatId = new HashMap<>();
 
-        mock(); // TODO :-)
+//        mock(); // TODO :-)
 
         System.out.println("DAO initialized!");
     }
@@ -181,6 +183,11 @@ public class UberDao {
         return scopeId == null ? null : getChatById(scopeId);
     }
 
+    public Chat getChatByMessage(Message message) {
+        Long chatId = messageId2ChatId.get(message.getId());
+        return getChatById(chatId);
+    }
+
     // Join methods
 
     public UberDao join2Chat(User user, Chat chat) {
@@ -211,6 +218,7 @@ public class UberDao {
         messages.put(message.getId(), message);
 
         chatId2MessageIdMap.put(chat.getId(), message.getId());
+        messageId2ChatId.put(message.getId(), chat.getId());
 
         if (scope != null) {
             chatId2MessageIdMap.put(scope.getId(), message.getId());
@@ -296,6 +304,7 @@ public class UberDao {
                 scopeId = scopeId == 0 ? null : scopeId;
 
                 chatId2MessageIdMap.put(chatId, message.getId());
+                messageId2ChatId.put(message.getId(), chatId);
                 messageId2ScopeId.put(message.getId(), scopeId);
             }
             while (selectAllLinksRs.next()) {
